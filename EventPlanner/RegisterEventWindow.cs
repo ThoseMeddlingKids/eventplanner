@@ -29,7 +29,7 @@ namespace WindowsFormsApplication1
         private string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\eventSaveFile.json";
 
         private string userName;
-        List<string> taskList = new List<String>();
+        List<TextBox> taskList = new List<TextBox>();
 
         /// <summary>
         /// Constructor for the RegisterEventWindow form.
@@ -131,6 +131,7 @@ namespace WindowsFormsApplication1
             bool timeWindowError = false;
 
             List<Tuple<DateTime, DateTime>> dateTimes = new List<Tuple<DateTime, DateTime>>();
+            List<string> tasks = new List<string>();
 
             int.TryParse(capacityText.Text, out capInt);
             foreach (Tuple<ComboBox, ComboBox> currentBoxes in timeBoxes)
@@ -164,6 +165,14 @@ namespace WindowsFormsApplication1
                 dateTimes.Sort((x, y) => DateTime.Compare(x.Item1, y.Item1));
 
             }
+
+            //Adds a New Task to the event task list for every task created 
+            foreach(TextBox someTask in taskList)
+            {
+                string task = someTask.Text;
+                tasks.Add(task);
+            }
+
             if (nameTextBox.Text.Length == 0)
             {
                 errorText = String.Concat(errorText, "\n Event name cannot be empty.");
@@ -208,7 +217,7 @@ namespace WindowsFormsApplication1
             }
             else
             {
-                buildEvent(capInt, dateTimes);
+                buildEvent(capInt, dateTimes, tasks);
             }
         }
 
@@ -217,12 +226,12 @@ namespace WindowsFormsApplication1
         /// </summary>
         /// <param name="capInt">The user's chosen capacity value, converted to int.</param>
         /// <param name="dateTimes">The user's chosen DateTime time slots</param>
-        private void buildEvent(int capInt, List<Tuple<DateTime, DateTime>> dateTimes)
+        private void buildEvent(int capInt, List<Tuple<DateTime, DateTime>> dateTimes, List<string> tasks)
         {
             //Write event specified by user to file
             this.Close();
 
-            Event evt = new Event(nameTextBox.Text, userName, briefMessageText.Text, dateTimes, locationText.Text, 1, capInt, taskList);
+            Event evt = new Event(nameTextBox.Text, userName, briefMessageText.Text, dateTimes, locationText.Text, 1, capInt, tasks);
             List<Tuple<String, List<DateTime>>> startingAttendees = new List<Tuple<string, List<DateTime>>>();
             List<DateTime> attendeeDTs = new List<DateTime>();
 
@@ -237,6 +246,11 @@ namespace WindowsFormsApplication1
             }
             startingAttendees.Add(new Tuple<String, List<DateTime>>(userName, attendeeDTs));
             evt.attendees = startingAttendees;
+
+            foreach (string task in tasks)
+            {
+
+            }
 
             JsonSerializer serializer = new JsonSerializer();
 
@@ -302,12 +316,11 @@ namespace WindowsFormsApplication1
         private void AddTasks_Click(object sender, EventArgs e)
         {
             TextBox newTask = new TextBox();
-            newTask.Text = "Enter a Task";
-            newTask.BindingContext = new BindingContext();
+            //newTask.BindingContext = new BindingContext();
 
-            taskList.Add(newTask.Text);
-            flowLayoutPanel1.Controls.Add(newTask);
-            //add another row of combo boxes for the user to add another, non-contiguous timeslot
+            taskList.Add(new TextBox());
+            flowLayoutPanel2.Controls.Add(newTask);
+            
         }
         //remove aditional time windows if you've added them
         /// <summary>
