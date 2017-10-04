@@ -37,9 +37,10 @@
             // 
             // loginButton
             // 
-            this.loginButton.Location = new System.Drawing.Point(75, 69);
+            this.loginButton.Location = new System.Drawing.Point(150, 133);
+            this.loginButton.Margin = new System.Windows.Forms.Padding(6);
             this.loginButton.Name = "loginButton";
-            this.loginButton.Size = new System.Drawing.Size(75, 23);
+            this.loginButton.Size = new System.Drawing.Size(150, 44);
             this.loginButton.TabIndex = 2;
             this.loginButton.Text = "Login";
             this.loginButton.UseVisualStyleBackColor = true;
@@ -47,9 +48,10 @@
             // 
             // createAccountButton
             // 
-            this.createAccountButton.Location = new System.Drawing.Point(66, 98);
+            this.createAccountButton.Location = new System.Drawing.Point(132, 188);
+            this.createAccountButton.Margin = new System.Windows.Forms.Padding(6);
             this.createAccountButton.Name = "createAccountButton";
-            this.createAccountButton.Size = new System.Drawing.Size(93, 23);
+            this.createAccountButton.Size = new System.Drawing.Size(186, 44);
             this.createAccountButton.TabIndex = 3;
             this.createAccountButton.Text = "Create Account";
             this.createAccountButton.UseVisualStyleBackColor = true;
@@ -58,33 +60,36 @@
             // userPasswordBox
             // 
             this.userPasswordBox.Cue = "Enter your password...";
-            this.userPasswordBox.Location = new System.Drawing.Point(35, 43);
+            this.userPasswordBox.Location = new System.Drawing.Point(70, 83);
+            this.userPasswordBox.Margin = new System.Windows.Forms.Padding(6);
             this.userPasswordBox.Name = "userPasswordBox";
-            this.userPasswordBox.Size = new System.Drawing.Size(156, 20);
+            this.userPasswordBox.Size = new System.Drawing.Size(308, 31);
             this.userPasswordBox.TabIndex = 1;
             // 
             // usernameBox
             // 
             this.usernameBox.AcceptsTab = true;
             this.usernameBox.Cue = "Enter your username...";
-            this.usernameBox.Location = new System.Drawing.Point(35, 12);
+            this.usernameBox.Location = new System.Drawing.Point(70, 23);
+            this.usernameBox.Margin = new System.Windows.Forms.Padding(6);
             this.usernameBox.Name = "usernameBox";
-            this.usernameBox.Size = new System.Drawing.Size(156, 20);
+            this.usernameBox.Size = new System.Drawing.Size(308, 31);
             this.usernameBox.TabIndex = 0;
             // 
             // LoginPopup
             // 
             this.AcceptButton = this.loginButton;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(230, 133);
+            this.ClientSize = new System.Drawing.Size(440, 194);
             this.Controls.Add(this.createAccountButton);
             this.Controls.Add(this.userPasswordBox);
             this.Controls.Add(this.loginButton);
             this.Controls.Add(this.usernameBox);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MaximumSize = new System.Drawing.Size(246, 172);
-            this.MinimumSize = new System.Drawing.Size(246, 172);
+            this.Margin = new System.Windows.Forms.Padding(6);
+            this.MaximumSize = new System.Drawing.Size(466, 265);
+            this.MinimumSize = new System.Drawing.Size(466, 265);
             this.Name = "LoginPopup";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Log In";

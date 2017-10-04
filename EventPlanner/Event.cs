@@ -24,6 +24,9 @@ using System.Windows.Forms;
     -end
     -capacity
     -attendees
+
+    NEW ADDITIONS BY THOSE MEDDLING KIDS
+    - tasklist: a list of strings that represent tasks to be completed by attendees
 */
 #endregion
 
@@ -72,6 +75,11 @@ namespace WindowsFormsApplication1
         public int capacity;
 
         /// <summary>
+        /// A list of tasks affiliated with each event represented as strings.
+        /// </summary>
+        public List<string> tasklist;
+
+        /// <summary>
         /// The number of attendees for an event.
         /// </summary>
         public int numberOfAttendees = 0;
@@ -87,7 +95,7 @@ namespace WindowsFormsApplication1
         /// <param name="loc">The event's location</param>
         /// <param name="attending">Number attending the event</param>
         /// <param name="cap">The event's capacity.</param>
-        public Event(string eventName, string hostName, string description, List<Tuple<DateTime, DateTime>> dateTimes, string loc, int attending, int cap)
+        public Event(string eventName, string hostName, string description, List<Tuple<DateTime, DateTime>> dateTimes, string loc, int attending, int cap, List<string> tasks)
         {
             nameOfEvent = eventName;
             host = hostName;
@@ -97,6 +105,8 @@ namespace WindowsFormsApplication1
             numberOfAttendees = attending;
             this.capacity = cap;
             Console.WriteLine("WTFFFFF " + this.capacity);
+            this.tasklist = tasks;
+            Console.WriteLine("Tasks: " + tasklist[1]);
 
             this.attendees = new List<Tuple<string, List<DateTime>>>();
 
@@ -180,6 +190,16 @@ namespace WindowsFormsApplication1
                 attendees.Add(new Tuple<string, List<DateTime>>(name, availableSlots));
             }
             this.numberOfAttendees = attendees.Count;
+        }
+
+        /// <summary>
+        /// setTask
+        /// adds a task to the event tasklist
+        /// </summary>
+        /// <returns>nothing</returns>
+        public void addTask(string task)
+        {
+            tasklist.Add(task);
         }
 
         /*

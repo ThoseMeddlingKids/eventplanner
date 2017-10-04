@@ -29,6 +29,7 @@ namespace WindowsFormsApplication1
         private string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\eventSaveFile.json";
 
         private string userName;
+        List<string> taskList = new List<String>();
 
         /// <summary>
         /// Constructor for the RegisterEventWindow form.
@@ -221,7 +222,7 @@ namespace WindowsFormsApplication1
             //Write event specified by user to file
             this.Close();
 
-            Event evt = new Event(nameTextBox.Text, userName, briefMessageText.Text, dateTimes, locationText.Text, 1, capInt);
+            Event evt = new Event(nameTextBox.Text, userName, briefMessageText.Text, dateTimes, locationText.Text, 1, capInt, taskList);
             List<Tuple<String, List<DateTime>>> startingAttendees = new List<Tuple<string, List<DateTime>>>();
             List<DateTime> attendeeDTs = new List<DateTime>();
 
@@ -294,6 +295,18 @@ namespace WindowsFormsApplication1
             timeBoxes.Add(new Tuple<ComboBox, ComboBox>(newStartBox, newEndBox));
             flowLayoutPanel1.Controls.Add(newStartBox);
             flowLayoutPanel1.Controls.Add(newEndBox);
+            //add another row of combo boxes for the user to add another, non-contiguous timeslot
+        }
+
+
+        private void AddTasks_Click(object sender, EventArgs e)
+        {
+            TextBox newTask = new TextBox();
+            newTask.Text = "Enter a Task";
+            newTask.BindingContext = new BindingContext();
+
+            taskList.Add(newTask.Text);
+            flowLayoutPanel1.Controls.Add(newTask);
             //add another row of combo boxes for the user to add another, non-contiguous timeslot
         }
         //remove aditional time windows if you've added them
