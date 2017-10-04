@@ -41,7 +41,7 @@
             this.capacityText = new System.Windows.Forms.TextBox();
             this.capLabel = new System.Windows.Forms.Label();
             this.cancelButton = new System.Windows.Forms.Button();
-            this.newTask = new System.Windows.Forms.TextBox();
+            this.taskBox = new System.Windows.Forms.TextBox();
             this.AddTasks = new System.Windows.Forms.Button();
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
             this.briefMessageText = new CueTextBox();
@@ -85,7 +85,7 @@
             // 
             // addSlotButton
             // 
-            this.addSlotButton.Location = new System.Drawing.Point(554, 377);
+            this.addSlotButton.Location = new System.Drawing.Point(33, 719);
             this.addSlotButton.Margin = new System.Windows.Forms.Padding(6);
             this.addSlotButton.Name = "addSlotButton";
             this.addSlotButton.Size = new System.Drawing.Size(238, 44);
@@ -99,7 +99,7 @@
             this.flowLayoutPanel1.AutoScroll = true;
             this.flowLayoutPanel1.Controls.Add(this.startTimeBox);
             this.flowLayoutPanel1.Controls.Add(this.endTimeBox);
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(528, 173);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(33, 515);
             this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(6);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Size = new System.Drawing.Size(567, 192);
@@ -107,7 +107,7 @@
             // 
             // removeTimeSlotButton
             // 
-            this.removeTimeSlotButton.Location = new System.Drawing.Point(804, 377);
+            this.removeTimeSlotButton.Location = new System.Drawing.Point(283, 719);
             this.removeTimeSlotButton.Margin = new System.Windows.Forms.Padding(6);
             this.removeTimeSlotButton.Name = "removeTimeSlotButton";
             this.removeTimeSlotButton.Size = new System.Drawing.Size(238, 44);
@@ -119,7 +119,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(529, 148);
+            this.label1.Location = new System.Drawing.Point(73, 484);
             this.label1.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(110, 25);
@@ -129,7 +129,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(779, 147);
+            this.label2.Location = new System.Drawing.Point(323, 484);
             this.label2.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(103, 25);
@@ -176,16 +176,16 @@
             this.cancelButton.UseVisualStyleBackColor = true;
             this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
             // 
-            // newTask
+            // taskBox
             // 
-            this.newTask.Location = new System.Drawing.Point(3, 3);
-            this.newTask.Name = "newTask";
-            this.newTask.Size = new System.Drawing.Size(259, 31);
-            this.newTask.TabIndex = 14;
+            this.taskBox.Location = new System.Drawing.Point(3, 3);
+            this.taskBox.Name = "taskBox";
+            this.taskBox.Size = new System.Drawing.Size(259, 31);
+            this.taskBox.TabIndex = 14;
             // 
             // AddTasks
             // 
-            this.AddTasks.Location = new System.Drawing.Point(24, 147);
+            this.AddTasks.Location = new System.Drawing.Point(817, 114);
             this.AddTasks.Name = "AddTasks";
             this.AddTasks.Size = new System.Drawing.Size(196, 46);
             this.AddTasks.TabIndex = 15;
@@ -194,11 +194,12 @@
             // 
             // flowLayoutPanel2
             // 
-            this.flowLayoutPanel2.Controls.Add(this.newTask);
-            this.flowLayoutPanel2.Location = new System.Drawing.Point(24, 207);
+            this.flowLayoutPanel2.AutoScroll = true;
+            this.flowLayoutPanel2.Controls.Add(this.taskBox);
+            this.flowLayoutPanel2.Location = new System.Drawing.Point(814, 166);
             this.flowLayoutPanel2.Name = "flowLayoutPanel2";
             this.flowLayoutPanel2.Size = new System.Drawing.Size(340, 132);
-            this.flowLayoutPanel2.TabIndex = 16;
+            this.flowLayoutPanel2.TabIndex = 5;
             // 
             // briefMessageText
             // 
@@ -277,7 +278,7 @@
         private CueTextBox locationText;
         private CueTextBox briefMessageText;
         private System.Windows.Forms.Button cancelButton;
-        private System.Windows.Forms.TextBox newTask;
+        private System.Windows.Forms.TextBox taskBox;
         private System.Windows.Forms.Button AddTasks;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel2;
     }

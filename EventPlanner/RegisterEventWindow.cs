@@ -29,6 +29,7 @@ namespace WindowsFormsApplication1
         private string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\eventSaveFile.json";
 
         private string userName;
+
         List<TextBox> taskList = new List<TextBox>();
 
         /// <summary>
@@ -88,6 +89,8 @@ namespace WindowsFormsApplication1
 
             //put the time boxes in a tuple to associate them and put it in a list to keep track of it
             timeBoxes.Add(new Tuple<ComboBox, ComboBox>(startTimeBox, endTimeBox));
+
+            taskList.Add(taskBox);
         }
 
         /// <summary>
@@ -316,8 +319,10 @@ namespace WindowsFormsApplication1
         private void AddTasks_Click(object sender, EventArgs e)
         {
             TextBox newTask = new TextBox();
-            //newTask.BindingContext = new BindingContext();
+            newTask.BindingContext = new BindingContext();
 
+
+            //This Doesn't add any new boxes to the flow layout panel
             taskList.Add(new TextBox());
             flowLayoutPanel2.Controls.Add(newTask);
             
