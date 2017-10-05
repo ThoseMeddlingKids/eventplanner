@@ -22,11 +22,13 @@ namespace WindowsFormsApplication1
         //user can add new time slots to an event 
         //maintain a list of the boxes for entering these so we can reference them when they save
         List<Tuple<ComboBox, ComboBox>> timeBoxes = new List<Tuple<ComboBox, ComboBox>>();
+        List<Tuple<CueTextBox, CueTextBox>> eventTasks = new List<Tuple<CueTextBox, CueTextBox>>();
         
         List<ComboBoxDateTime> halfHourDateTimes = new List<ComboBoxDateTime>();
         List<ComboBoxDateTime> halfHourDateTimesForEnd = new List<ComboBoxDateTime>();
 
         private string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\eventSaveFile.json";
+
 
         private string userName;
 
@@ -296,6 +298,24 @@ namespace WindowsFormsApplication1
             flowLayoutPanel1.Controls.Add(newEndBox);
             //add another row of combo boxes for the user to add another, non-contiguous timeslot
         }
+
+
+        //duplicate 
+        private void AddTaskBtn_Click(object sender, EventArgs e)
+        {
+            CueTextBox WhoWillCompleteThisTask = new CueTextBox();
+            //WhoWillCompleteThisTask.BindingContext = new BindingContext();
+
+            CueTextBox NameOfTask = new CueTextBox();
+            //NameOfTask.BindingContext = new BindingContext();
+
+            eventTasks.Add(new Tuple<CueTextBox, CueTextBox>(WhoWillCompleteThisTask, NameOfTask));
+            flowLayoutPanel2.Controls.Add(WhoWillCompleteThisTask);
+            flowLayoutPanel2.Controls.Add(NameOfTask);
+            //add another row of combo boxes for the user to add another, non-contiguous timeslot
+        }
+
+        
         //remove aditional time windows if you've added them
         /// <summary>
         /// Click behavior for the remove time slot button.
@@ -310,6 +330,16 @@ namespace WindowsFormsApplication1
                 flowLayoutPanel1.Controls.Remove(timeBoxes.Last().Item1);
                 flowLayoutPanel1.Controls.Remove(timeBoxes.Last().Item2);
                 timeBoxes.Remove(timeBoxes.Last());
+            }
+        }
+
+        private void DeleteTaskBtn_Click(object sender, EventArgs e)
+        {
+            if (eventTasks.Count > 1)
+            {
+                flowLayoutPanel2.Controls.Remove(eventTasks.Last().Item1);
+                flowLayoutPanel2.Controls.Remove(eventTasks.Last().Item2);
+                eventTasks.Remove(eventTasks.Last());
             }
         }
 

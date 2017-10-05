@@ -41,6 +41,9 @@
             this.capacityText = new System.Windows.Forms.TextBox();
             this.capLabel = new System.Windows.Forms.Label();
             this.cancelButton = new System.Windows.Forms.Button();
+            this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
+            this.AddTaskBtn = new System.Windows.Forms.Button();
+            this.DeleteTaskBtn = new System.Windows.Forms.Button();
             this.briefMessageText = new CueTextBox();
             this.locationText = new CueTextBox();
             this.nameTextBox = new CueTextBox();
@@ -68,7 +71,7 @@
             // saveButton
             // 
             this.saveButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.saveButton.Location = new System.Drawing.Point(194, 272);
+            this.saveButton.Location = new System.Drawing.Point(152, 273);
             this.saveButton.Name = "saveButton";
             this.saveButton.Size = new System.Drawing.Size(75, 23);
             this.saveButton.TabIndex = 7;
@@ -152,7 +155,7 @@
             // 
             // cancelButton
             // 
-            this.cancelButton.Location = new System.Drawing.Point(11, 273);
+            this.cancelButton.Location = new System.Drawing.Point(63, 273);
             this.cancelButton.Margin = new System.Windows.Forms.Padding(2);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(75, 23);
@@ -160,6 +163,40 @@
             this.cancelButton.Text = "Cancel";
             this.cancelButton.UseVisualStyleBackColor = true;
             this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
+            // 
+            // flowLayoutPanel2
+            // 
+            this.flowLayoutPanel2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.flowLayoutPanel2.AutoScroll = true;
+            this.flowLayoutPanel2.Location = new System.Drawing.Point(322, 31);
+            this.flowLayoutPanel2.Margin = new System.Windows.Forms.Padding(2);
+            this.flowLayoutPanel2.Name = "flowLayoutPanel2";
+            this.flowLayoutPanel2.Size = new System.Drawing.Size(244, 102);
+            this.flowLayoutPanel2.TabIndex = 5;
+            // 
+            // AddTaskBtn
+            // 
+            this.AddTaskBtn.Location = new System.Drawing.Point(334, 136);
+            this.AddTaskBtn.Margin = new System.Windows.Forms.Padding(2);
+            this.AddTaskBtn.Name = "AddTaskBtn";
+            this.AddTaskBtn.Size = new System.Drawing.Size(93, 20);
+            this.AddTaskBtn.TabIndex = 15;
+            this.AddTaskBtn.Text = "Add";
+            this.AddTaskBtn.UseVisualStyleBackColor = true;
+            this.AddTaskBtn.Click += new System.EventHandler(this.AddTaskBtn_Click);
+            // 
+            // DeleteTaskBtn
+            // 
+            this.DeleteTaskBtn.Location = new System.Drawing.Point(441, 136);
+            this.DeleteTaskBtn.Margin = new System.Windows.Forms.Padding(2);
+            this.DeleteTaskBtn.Name = "DeleteTaskBtn";
+            this.DeleteTaskBtn.Size = new System.Drawing.Size(112, 20);
+            this.DeleteTaskBtn.TabIndex = 16;
+            this.DeleteTaskBtn.Text = "Delete";
+            this.DeleteTaskBtn.UseVisualStyleBackColor = true;
+            this.DeleteTaskBtn.Click += new System.EventHandler(this.DeleteTaskBtn_Click);
             // 
             // briefMessageText
             // 
@@ -189,7 +226,10 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(292, 307);
+            this.ClientSize = new System.Drawing.Size(836, 502);
+            this.Controls.Add(this.DeleteTaskBtn);
+            this.Controls.Add(this.AddTaskBtn);
+            this.Controls.Add(this.flowLayoutPanel2);
             this.Controls.Add(this.cancelButton);
             this.Controls.Add(this.briefMessageText);
             this.Controls.Add(this.locationText);
@@ -204,8 +244,6 @@
             this.Controls.Add(this.addSlotButton);
             this.Controls.Add(this.saveButton);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MaximumSize = new System.Drawing.Size(308, 346);
-            this.MinimumSize = new System.Drawing.Size(308, 346);
             this.Name = "RegisterEventWindow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Create Event";
@@ -231,5 +269,8 @@
         private CueTextBox locationText;
         private CueTextBox briefMessageText;
         private System.Windows.Forms.Button cancelButton;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel2;
+        private System.Windows.Forms.Button AddTaskBtn;
+        private System.Windows.Forms.Button DeleteTaskBtn;
     }
 }
