@@ -61,6 +61,13 @@ namespace WindowsFormsApplication1
         public List<Tuple<DateTime, DateTime>> dateTimes;
 
         /// <summary>
+        /// A list of tuples containing two strings
+        /// Fist Item represents the person who will complete the task
+        /// Second Item represents the name of the task
+        /// </summary>
+        public List<Tuple<String, String>> ThisEventTaskList;
+
+        /// <summary>
         /// A list representing the attendess of the event.
         /// Tuples contain a string representing the user's name and a list of available time slots.
         /// </summary>
@@ -87,7 +94,7 @@ namespace WindowsFormsApplication1
         /// <param name="loc">The event's location</param>
         /// <param name="attending">Number attending the event</param>
         /// <param name="cap">The event's capacity.</param>
-        public Event(string eventName, string hostName, string description, List<Tuple<DateTime, DateTime>> dateTimes, string loc, int attending, int cap)
+        public Event(string eventName, string hostName, string description, List<Tuple<DateTime, DateTime>> dateTimes, string loc, int attending, int cap, List<Tuple<String, String>> ThisEventTaskList)
         {
             nameOfEvent = eventName;
             host = hostName;
@@ -97,6 +104,7 @@ namespace WindowsFormsApplication1
             numberOfAttendees = attending;
             this.capacity = cap;
             Console.WriteLine("WTFFFFF " + this.capacity);
+            this.ThisEventTaskList = ThisEventTaskList;
 
             this.attendees = new List<Tuple<string, List<DateTime>>>();
 

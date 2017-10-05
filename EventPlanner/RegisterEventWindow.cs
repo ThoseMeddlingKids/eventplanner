@@ -133,7 +133,19 @@ namespace WindowsFormsApplication1
 
             List<Tuple<DateTime, DateTime>> dateTimes = new List<Tuple<DateTime, DateTime>>();
 
+            //Master List of tasks affiliated with each event
+            List<Tuple<String, String>> ListOfTasks = new List<Tuple<String, String>>();
+
             int.TryParse(capacityText.Text, out capInt);
+
+            //Adds Each Task Created by the event host to the master list of tasks affiliated with the event
+            foreach (Tuple<CueTextBox, CueTextBox> task in eventTasks)
+            {
+                String person = (task.Item1.SelectedText as String);
+                String taskDef = (task.Item2.SelectedText as String);
+                ListOfTasks.Add(new Tuple<String, String>(person, taskDef));
+            }
+
             foreach (Tuple<ComboBox, ComboBox> currentBoxes in timeBoxes)
             {
                 //ensure the time slots are valid
@@ -209,7 +221,7 @@ namespace WindowsFormsApplication1
             }
             else
             {
-                buildEvent(capInt, dateTimes);
+                buildEvent(capInt, dateTimes, ListOfTasks);
             }
         }
 
@@ -218,12 +230,12 @@ namespace WindowsFormsApplication1
         /// </summary>
         /// <param name="capInt">The user's chosen capacity value, converted to int.</param>
         /// <param name="dateTimes">The user's chosen DateTime time slots</param>
-        private void buildEvent(int capInt, List<Tuple<DateTime, DateTime>> dateTimes)
+        private void buildEvent(int capInt, List<Tuple<DateTime, DateTime>> dateTimes, List<Tuple<String, String>> MasterTaskList)
         {
             //Write event specified by user to file
             this.Close();
 
-            Event evt = new Event(nameTextBox.Text, userName, briefMessageText.Text, dateTimes, locationText.Text, 1, capInt);
+            Event evt = new Event(nameTextBox.Text, userName, briefMessageText.Text, dateTimes, locationText.Text, 1, capInt, MasterTaskList);
             List<Tuple<String, List<DateTime>>> startingAttendees = new List<Tuple<string, List<DateTime>>>();
             List<DateTime> attendeeDTs = new List<DateTime>();
 
@@ -300,13 +312,15 @@ namespace WindowsFormsApplication1
         }
 
 
-        //duplicate 
+        //Adds CueBoxes to the second flow layout panel dynamically.
         private void AddTaskBtn_Click(object sender, EventArgs e)
         {
             CueTextBox WhoWillCompleteThisTask = new CueTextBox();
+            
             //WhoWillCompleteThisTask.BindingContext = new BindingContext();
 
             CueTextBox NameOfTask = new CueTextBox();
+            
             //NameOfTask.BindingContext = new BindingContext();
 
             eventTasks.Add(new Tuple<CueTextBox, CueTextBox>(WhoWillCompleteThisTask, NameOfTask));
@@ -333,6 +347,7 @@ namespace WindowsFormsApplication1
             }
         }
 
+        //deletes instances of task cueboxes created within the flow layout panel
         private void DeleteTaskBtn_Click(object sender, EventArgs e)
         {
             if (eventTasks.Count > 1)

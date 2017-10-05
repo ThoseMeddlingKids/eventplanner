@@ -47,6 +47,8 @@
             this.briefMessageText = new CueTextBox();
             this.locationText = new CueTextBox();
             this.nameTextBox = new CueTextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
             this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -183,7 +185,7 @@
             this.AddTaskBtn.Name = "AddTaskBtn";
             this.AddTaskBtn.Size = new System.Drawing.Size(93, 20);
             this.AddTaskBtn.TabIndex = 15;
-            this.AddTaskBtn.Text = "Add";
+            this.AddTaskBtn.Text = "Create Task";
             this.AddTaskBtn.UseVisualStyleBackColor = true;
             this.AddTaskBtn.Click += new System.EventHandler(this.AddTaskBtn_Click);
             // 
@@ -194,7 +196,7 @@
             this.DeleteTaskBtn.Name = "DeleteTaskBtn";
             this.DeleteTaskBtn.Size = new System.Drawing.Size(112, 20);
             this.DeleteTaskBtn.TabIndex = 16;
-            this.DeleteTaskBtn.Text = "Delete";
+            this.DeleteTaskBtn.Text = "Delete Task";
             this.DeleteTaskBtn.UseVisualStyleBackColor = true;
             this.DeleteTaskBtn.Click += new System.EventHandler(this.DeleteTaskBtn_Click);
             // 
@@ -222,11 +224,31 @@
             this.nameTextBox.Size = new System.Drawing.Size(100, 20);
             this.nameTextBox.TabIndex = 1;
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(319, 16);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(95, 13);
+            this.label3.TabIndex = 17;
+            this.label3.Text = "Person Completing";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(438, 16);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(74, 13);
+            this.label4.TabIndex = 18;
+            this.label4.Text = "Name of Task";
+            // 
             // RegisterEventWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(836, 502);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.DeleteTaskBtn);
             this.Controls.Add(this.AddTaskBtn);
             this.Controls.Add(this.flowLayoutPanel2);
@@ -272,5 +294,7 @@
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel2;
         private System.Windows.Forms.Button AddTaskBtn;
         private System.Windows.Forms.Button DeleteTaskBtn;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
     }
 }
