@@ -19,16 +19,16 @@ namespace WindowsFormsApplication1
     public partial class RegisterEventWindow : Form
     {
 
+        IDictionary<string,Day> Days = new Dictionary<string,Day>();
         //user can add new time slots to an event 
         //maintain a list of the boxes for entering these so we can reference them when they save
-        List<Tuple<ComboBox, ComboBox>> timeBoxes = new List<Tuple<ComboBox, ComboBox>>();
+        List<Tuple<ComboBox, ComboBox>> recurTimeBoxes = new List<Tuple<ComboBox, ComboBox>>();
         List<Tuple<CueTextBox, CueTextBox>> eventTasks = new List<Tuple<CueTextBox, CueTextBox>>();
-        
+        List<Tuple<Label, Button>> dateBox = new List<Tuple<Label, Button>>();
+
         List<ComboBoxDateTime> halfHourDateTimes = new List<ComboBoxDateTime>();
         List<ComboBoxDateTime> halfHourDateTimesForEnd = new List<ComboBoxDateTime>();
-
         private string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\eventSaveFile.json";
-
 
         private string userName;
 
@@ -42,7 +42,7 @@ namespace WindowsFormsApplication1
         {
             InitializeComponent();
             userName = username;
-            dateLabel.Text = "Adding event for: " + selectedDate.ToShortDateString();
+            dateLabel.Text = "Adding event";
 
             //int local_hrs; 
 
@@ -70,25 +70,41 @@ namespace WindowsFormsApplication1
 
             for (int i = 0; i < 48; i++)
             {
-                if (currentTime.inner >= DateTime.Now)
-                {
-                    halfHourDateTimes.Add(currentTime);
-                    halfHourDateTimesForEnd.Add(currentTime);
-                }
+                halfHourDateTimes.Add(currentTime);
+                halfHourDateTimesForEnd.Add(currentTime);
                 currentTime = new ComboBoxDateTime(currentTime.inner.AddMinutes(30), use24Hour);
             }
             DateTime midnight = selectedDate.AddDays(1);
             halfHourDateTimesForEnd.Add(new ComboBoxDateTime(midnight, use24Hour));
-            //use the list of times as the list of options for our time boxes
-            startTimeBox.DataSource = halfHourDateTimes;
-            startTimeBox.DisplayMember = "shortTimeString";
 
-            endTimeBox.BindingContext = new BindingContext();
-            endTimeBox.DataSource = halfHourDateTimesForEnd;
-            endTimeBox.DisplayMember = "shortTimeStringForEndBoxes";
+            Label newDateLabel = new Label();
+            //add stuff to new label
+            newDateLabel.Text = selectedDate.ToShortDateString();
+            newDateLabel.Size = new System.Drawing.Size(80, 24);
+            newDateLabel.TextAlign = ContentAlignment.MiddleCenter;
+
+            Button newDateButton = new Button();
+            //add stuff to new button
+            newDateButton.Text = "Set Times from Below";
+            newDateButton.Size = new System.Drawing.Size(140, 24);
+
+            dateBox.Add(new Tuple<Label, Button>(newDateLabel, newDateButton));
+
+            flowLayoutPanel3.Controls.Add(newDateButton);
+            flowLayoutPanel3.Controls.Add(newDateLabel);
+            flowLayoutPanel3.SetFlowBreak(newDateLabel, true);
+
+
+            //use the list of times as the list of options for our time boxes
+            //startTimeBox.DataSource = halfHourDateTimes;
+            //startTimeBox.DisplayMember = "shortTimeString";
+
+            //endTimeBox.BindingContext = new BindingContext();
+            //endTimeBox.DataSource = halfHourDateTimesForEnd;
+            //endTimeBox.DisplayMember = "shortTimeStringForEndBoxes";
 
             //put the time boxes in a tuple to associate them and put it in a list to keep track of it
-            timeBoxes.Add(new Tuple<ComboBox, ComboBox>(startTimeBox, endTimeBox));
+            //recurTimeBoxes.Add(new Tuple<ComboBox, ComboBox>(startTimeBox, endTimeBox));
         }
 
         /// <summary>
@@ -146,7 +162,7 @@ namespace WindowsFormsApplication1
                 ListOfTasks.Add(new Tuple<String, String>(person, taskDef));
             }
 
-            foreach (Tuple<ComboBox, ComboBox> currentBoxes in timeBoxes)
+            foreach (Tuple<ComboBox, ComboBox> currentBoxes in recurTimeBoxes)
             {
                 //ensure the time slots are valid
                 //if end time is 12:00 AM that is equivalent to 11:59:59 pm, not a repeat or smaller number.
@@ -305,7 +321,7 @@ namespace WindowsFormsApplication1
             newEndBox.DataSource = halfHourDateTimesForEnd;
             newEndBox.DropDownStyle = ComboBoxStyle.DropDownList;
 
-            timeBoxes.Add(new Tuple<ComboBox, ComboBox>(newStartBox, newEndBox));
+            recurTimeBoxes.Add(new Tuple<ComboBox, ComboBox>(newStartBox, newEndBox));
             flowLayoutPanel1.Controls.Add(newStartBox);
             flowLayoutPanel1.Controls.Add(newEndBox);
             //add another row of combo boxes for the user to add another, non-contiguous timeslot
@@ -339,11 +355,11 @@ namespace WindowsFormsApplication1
         /// <param name="e">Winforms event arguments.</param>
         private void removeTimeSlotButton_Click(object sender, EventArgs e)
         {
-            if (timeBoxes.Count > 1)
+            if (recurTimeBoxes.Count >= 1)
             {
-                flowLayoutPanel1.Controls.Remove(timeBoxes.Last().Item1);
-                flowLayoutPanel1.Controls.Remove(timeBoxes.Last().Item2);
-                timeBoxes.Remove(timeBoxes.Last());
+                flowLayoutPanel1.Controls.Remove(recurTimeBoxes.Last().Item1);
+                flowLayoutPanel1.Controls.Remove(recurTimeBoxes.Last().Item2);
+                recurTimeBoxes.Remove(recurTimeBoxes.Last());
             }
         }
 
@@ -439,6 +455,49 @@ namespace WindowsFormsApplication1
         private void cancelButton_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void AddDay_Click(object sender, EventArgs e)
+        {
+            DateTime newDate;
+
+            using (var form = new AddDay())
+            {
+                var result = form.ShowDialog();
+                if (result == DialogResult.OK)
+                {
+                    newDate = form.selectedDate;
+
+                    Label newDateLabel = new Label();
+                    //add stuff to new label
+                    newDateLabel.Text = newDate.ToShortDateString();
+                    newDateLabel.Size = new System.Drawing.Size(80, 24);
+                    newDateLabel.TextAlign = ContentAlignment.MiddleCenter;
+
+                    Button newDateButton = new Button();
+                    //add stuff to new button
+                    newDateButton.Text = "Set Times From Below";
+                    newDateButton.Size = new System.Drawing.Size(140, 24);
+                    //newDateButton.Click += new EventHandler(this.setTimes());
+
+                    dateBox.Add(new Tuple<Label, Button>(newDateLabel, newDateButton));
+
+                    flowLayoutPanel3.Controls.Add(newDateButton);
+                    flowLayoutPanel3.Controls.Add(newDateLabel);
+                    flowLayoutPanel3.SetFlowBreak(newDateLabel, true);
+
+                }
+            }
+        }
+
+        private void removeDay_Click(object sender, EventArgs e)
+        {
+            if (dateBox.Count >= 1)
+            {
+                flowLayoutPanel3.Controls.Remove(dateBox.Last().Item1);
+                flowLayoutPanel3.Controls.Remove(dateBox.Last().Item2);
+                dateBox.Remove(dateBox.Last());
+            }
         }
     }
 }

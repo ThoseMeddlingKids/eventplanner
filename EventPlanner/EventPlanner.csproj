@@ -60,6 +60,12 @@
     <Compile Include="AddAvailabilityWindow.Designer.cs">
       <DependentUpon>AddAvailabilityWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="AddDay.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddDay.Designer.cs">
+      <DependentUpon>AddDay.cs</DependentUpon>
+    </Compile>
     <Compile Include="AgendaTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -75,6 +81,7 @@
     <Compile Include="CueTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Day.cs" />
     <Compile Include="Event.cs" />
     <Compile Include="LoginPopup.cs">
       <SubType>Form</SubType>

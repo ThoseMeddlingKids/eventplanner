@@ -103,6 +103,8 @@ namespace WindowsFormsApplication1
             this.dateTimes = dateTimes;
             numberOfAttendees = attending;
             this.capacity = cap;
+
+            /// why is this here
             Console.WriteLine("WTFFFFF " + this.capacity);
             this.ThisEventTaskList = ThisEventTaskList;
 
