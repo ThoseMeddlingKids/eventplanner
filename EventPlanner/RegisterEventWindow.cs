@@ -478,7 +478,7 @@ namespace WindowsFormsApplication1
                     //add stuff to new button
                     newDateButton.Text = "Set Times From Below";
                     newDateButton.Size = new System.Drawing.Size(140, 24);
-                    //newDateButton.Click += new EventHandler(this.setTimes());
+                    //newDateButton.Click += delegate(object sender, EventArgs e) { setDayTimes(sender, e, newDate); } ;
 
                     dateBox.Add(new Tuple<Label, Button>(newDateLabel, newDateButton));
 
@@ -487,6 +487,66 @@ namespace WindowsFormsApplication1
                     flowLayoutPanel3.SetFlowBreak(newDateLabel, true);
 
                 }
+            }
+        }
+        
+        /// <summary>
+        /// Sets Times for a specific day
+        /// </summary>
+        private void setDayTimes(DateTime selectedDate)
+        {
+            
+            Day day = new Day(selectedDate);
+
+            bool comboBoxError = false;
+            bool timeWindowError = false;
+            bool inputError = false;
+            string errorText = "";
+
+            List<Tuple<DateTime, DateTime>> dateTimes = new List<Tuple<DateTime, DateTime>>();
+
+            foreach (Tuple<ComboBox, ComboBox> currentBoxes in recurTimeBoxes)
+            {
+                //ensure the time slots are valid
+                //if end time is 12:00 AM that is equivalent to 11:59:59 pm, not a repeat or smaller number.
+                DateTime startTime = (currentBoxes.Item1.SelectedValue as ComboBoxDateTime).inner;
+                DateTime endTime = (currentBoxes.Item2.SelectedValue as ComboBoxDateTime).inner;
+
+                DateTime previousEndTime = DateTime.MinValue;
+                DateTime previousStartTime = DateTime.MinValue;
+
+                if (endTime <= startTime && !endTime.ToShortTimeString().Equals("12:00 AM") && !comboBoxError)
+                {
+                    errorText = String.Concat(errorText, "At least one of the time slots is impossible.");
+                    comboBoxError = true;
+                    inputError = true;
+                }
+                if (endTime.ToShortTimeString().Equals("12:00 AM"))
+                {
+                    endTime = endTime.AddDays(1);
+                }
+                if (((startTime >= previousStartTime) && (startTime <= previousEndTime) ||
+                    ((endTime >= previousStartTime) && (endTime <= previousEndTime))) && (startTime != previousEndTime) && !timeWindowError)
+                {
+                    errorText = String.Concat(errorText, "\nTwo of the selected time windows overlap.");
+                    inputError = true;
+                    timeWindowError = true;
+                }
+                previousStartTime = startTime;
+                previousEndTime = endTime;
+
+                dateTimes.Add(new Tuple<DateTime, DateTime>(startTime, endTime));
+                dateTimes.Sort((x, y) => DateTime.Compare(x.Item1, y.Item1));
+
+            }
+
+            if (inputError)
+            {
+                MessageBox.Show(errorText);
+            }
+            else
+            {
+                
             }
         }
 

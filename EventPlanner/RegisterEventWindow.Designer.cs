@@ -128,6 +128,7 @@
             // cancelButton
             // 
             this.cancelButton.Location = new System.Drawing.Point(42, 638);
+            this.cancelButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(112, 35);
             this.cancelButton.TabIndex = 10;
@@ -188,9 +189,9 @@
             // 
             // removeDay
             // 
-            this.removeDay.Location = new System.Drawing.Point(269, 334);
+            this.removeDay.Location = new System.Drawing.Point(464, 334);
             this.removeDay.Name = "removeDay";
-            this.removeDay.Size = new System.Drawing.Size(223, 35);
+            this.removeDay.Size = new System.Drawing.Size(374, 35);
             this.removeDay.TabIndex = 25;
             this.removeDay.Text = "Remove Day";
             this.removeDay.UseVisualStyleBackColor = true;
@@ -218,7 +219,7 @@
             // 
             this.AddDay.Location = new System.Drawing.Point(42, 334);
             this.AddDay.Name = "AddDay";
-            this.AddDay.Size = new System.Drawing.Size(219, 35);
+            this.AddDay.Size = new System.Drawing.Size(416, 35);
             this.AddDay.TabIndex = 20;
             this.AddDay.Text = "Add Day";
             this.AddDay.UseVisualStyleBackColor = true;
@@ -289,6 +290,8 @@
             this.Controls.Add(this.saveButton);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.MaximumSize = new System.Drawing.Size(900, 742);
+            this.MinimumSize = new System.Drawing.Size(900, 742);
             this.Name = "RegisterEventWindow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Create Event";
