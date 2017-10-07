@@ -69,9 +69,9 @@
             this.addSlotButton.Location = new System.Drawing.Point(42, 595);
             this.addSlotButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.addSlotButton.Name = "addSlotButton";
-            this.addSlotButton.Size = new System.Drawing.Size(219, 35);
+            this.addSlotButton.Size = new System.Drawing.Size(204, 35);
             this.addSlotButton.TabIndex = 9;
-            this.addSlotButton.Text = "Add Recurring Time Slot";
+            this.addSlotButton.Text = "Add Time Slot";
             this.addSlotButton.UseVisualStyleBackColor = true;
             this.addSlotButton.Click += new System.EventHandler(this.addSlotButton_Click);
             // 
@@ -86,10 +86,10 @@
             // 
             // removeTimeSlotButton
             // 
-            this.removeTimeSlotButton.Location = new System.Drawing.Point(269, 595);
+            this.removeTimeSlotButton.Location = new System.Drawing.Point(254, 595);
             this.removeTimeSlotButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.removeTimeSlotButton.Name = "removeTimeSlotButton";
-            this.removeTimeSlotButton.Size = new System.Drawing.Size(184, 35);
+            this.removeTimeSlotButton.Size = new System.Drawing.Size(199, 35);
             this.removeTimeSlotButton.TabIndex = 8;
             this.removeTimeSlotButton.Text = "Remove Time Slot";
             this.removeTimeSlotButton.UseVisualStyleBackColor = true;

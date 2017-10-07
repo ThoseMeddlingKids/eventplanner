@@ -1,0 +1,740 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>EventPlanner</name>
+    </assembly>
+    <members>
+        <member name="T:WindowsFormsApplication1.AddAvailabilityWindow">
+            <summary>
+            Form allowing users to flag their available time slots for an event.
+            </summary>
+        </member>
+        <member name="M:WindowsFormsApplication1.AddAvailabilityWindow.#ctor(System.Collections.Generic.List{WindowsFormsApplication1.Event},System.String,System.Collections.Generic.List{WindowsFormsApplication1.Event},System.Boolean)">
+            <summary>
+            Constructor for the Add Availability window.
+            </summary>
+            <param name="events">The list of events relevant to the selected time period.</param>
+            <param name="userName">The user's chosen name.</param>
+            <param name="allEvents">The master list of all events, to be updated and written to JSON.</param>
+            <param name="use24Hour">Whether to use 24 hour time.</param>
+        </member>
+        <member name="M:WindowsFormsApplication1.AddAvailabilityWindow.updateAttendees(WindowsFormsApplication1.Event)">
+            <summary>
+            Updates the text box showing the current attendees of the event.
+            </summary>
+            <param name="ev">The selected event.</param>
+        </member>
+        <member name="M:WindowsFormsApplication1.AddAvailabilityWindow.eventComboBox_SelectedIndexChanged(System.Object,System.EventArgs)">
+            <summary>
+            SelectedIndexChanged behavior for the event combo box.
+            Changes displayed event info.
+            </summary>
+        </member>
+        <member name="M:WindowsFormsApplication1.AddAvailabilityWindow.CheckUnavailableTimes(System.Int32,System.DateTime,WindowsFormsApplication1.Event)">
+            <summary>
+            Add Unavailable Times To List So They Can't Be Selected
+            </summary>
+            <param name="minuteIntervals">The number of 30 minute intervals in the relevant time window.</param>
+            <param name="startTimeBox">The starting DateTime of the relevant time window.</param>
+            <param name="selectedEvent">The event selected for availability modification.</param>
+        </member>
+        <member name="M:WindowsFormsApplication1.AddAvailabilityWindow.AddCheckbox(System.DateTime)">
+            <summary>
+            Adds checkboxes for users to select their available times.
+            </summary>
+            <param name="dTime">The datetime to add a checkbox for.</param>
+        </member>
+        <member name="M:WindowsFormsApplication1.AddAvailabilityWindow.preventHostDelisting(System.Object,System.EventArgs)">
+            <summary>
+            CheckedChanged behavior for the checkboxes.
+            Prevent the host from delisting himself from all time slots
+            </summary>
+            <param name="sender">The sending winforms object.</param>
+            <param name="e">Winforms event arguments.</param>
+        </member>
+        <member name="M:WindowsFormsApplication1.AddAvailabilityWindow.saveAvailabilityButton_Click(System.Object,System.EventArgs)">
+            <summary>
+            Click behavior for the save button.
+            Prepares to overwrite the user's current attendee info on the event with the current state of their checkboxes.
+            </summary>
+            <param name="sender">The sending winforms object.</param>
+            <param name="e">Winforms event arguments.</param>
+        </member>
+        <member name="M:WindowsFormsApplication1.AddAvailabilityWindow.WriteToJSON(WindowsFormsApplication1.Event)">
+            <summary>
+            Writes the changes to the user's attendee info to JSON.
+            </summary>
+            <param name="realEvent">The event in the main list of all events to be modified.</param>
+        </member>
+        <member name="F:WindowsFormsApplication1.AddAvailabilityWindow.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:WindowsFormsApplication1.AddAvailabilityWindow.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:WindowsFormsApplication1.AddAvailabilityWindow.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:WindowsFormsApplication1.AddDay">
+            <summary>
+            Calendar Popup for adding a day.
+            </summary>
+        </member>
+        <member name="F:WindowsFormsApplication1.AddDay.selectedDate">
+            <summary>
+            New date Variable. 
+            </summary>
+        </member>
+        <member name="M:WindowsFormsApplication1.AddDay.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:WindowsFormsApplication1.AddDay.AddDayButton_Click(System.Object,System.EventArgs)">
+            <summary>
+            Click behavior for the date submission button.
+            </summary>
+            <param name="sender">The sending winforms object.</param>
+            <param name="e">Winforms event arguments.</param>
+        </member>
+        <member name="F:WindowsFormsApplication1.AddDay.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:WindowsFormsApplication1.AddDay.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:WindowsFormsApplication1.AddDay.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:WindowsFormsApplication1.AgendaTextBox">
+            <summary>
+            An overloaded TextBox which is associated with a DateTime and a list of events.
+            </summary>
+        </member>
+        <member name="T:WindowsFormsApplication1.CheckEventsForm">
+            <summary>
+            A form allowing users to check the attendees of events created under their username.
+            </summary>
+        </member>
+        <member name="M:WindowsFormsApplication1.CheckEventsForm.#ctor(System.String,System.Boolean)">
+            <summary>
+            Constructor for the Check Events form.
+            </summary>
+            <param name="userName">The user's provided name.</param>
+            <param name="use24Hour">Whether to use 24 hour time.</param>
+        </member>
+        <member name="M:WindowsFormsApplication1.CheckEventsForm.CheckEventsForm_Load(System.Object,System.EventArgs)">
+            <summary>
+            Load behavior for the Check Events form.
+            Populates the events combo box.
+            </summary>
+            <param name="sender">The sending winforms object.</param>
+            <param name="e">Winforms event arguments.</param>
+        </member>
+        <member name="M:WindowsFormsApplication1.CheckEventsForm.pullEventsFromJSON">
+            <summary>
+            Deserialize the JSON save file to a list of events.
+            </summary>
+        </member>
+        <member name="M:WindowsFormsApplication1.CheckEventsForm.BackButton_Click(System.Object,System.EventArgs)">
+            <summary>
+            Click behavior for the back button. 
+            Closes the window.
+            </summary>
+            <param name="sender">The sending winforms object.</param>
+            <param name="e">Winforms event arguments.</param>
+        </member>
+        <member name="M:WindowsFormsApplication1.CheckEventsForm.yourEventsBox_SelectedValueChanged(System.Object,System.EventArgs)">
+            <summary>
+            SelectedValueChanged behavior for the events combobox.
+            Updates the attendees info text for the newly selected event.
+            </summary>
+            <param name="sender">The sending winforms object.</param>
+            <param name="e">Winforms event arguments.</param>
+        </member>
+        <member name="F:WindowsFormsApplication1.CheckEventsForm.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:WindowsFormsApplication1.CheckEventsForm.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:WindowsFormsApplication1.CheckEventsForm.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:WindowsFormsApplication1.Event">
+            <summary>
+            Event class. Serializable to JSON.
+            </summary>
+        </member>
+        <member name="F:WindowsFormsApplication1.Event.nameOfEvent">
+            <summary>
+            The event's name.
+            </summary>
+        </member>
+        <member name="F:WindowsFormsApplication1.Event.host">
+            <summary>
+            The creator of the event.
+            </summary>
+        </member>
+        <member name="F:WindowsFormsApplication1.Event.location">
+            <summary>
+            The location of the event.
+            </summary>
+        </member>
+        <member name="F:WindowsFormsApplication1.Event.brief">
+            <summary>
+            A description of the event.
+            </summary>
+        </member>
+        <member name="F:WindowsFormsApplication1.Event.dateTimes">
+            <summary>
+            A list of tuples containing two DateTimes. 
+            These represent the start and end times of each contiguous block of scheduled event time.
+            </summary>
+        </member>
+        <member name="F:WindowsFormsApplication1.Event.ThisEventTaskList">
+            <summary>
+            A list of tuples containing two strings
+            Fist Item represents the person who will complete the task
+            Second Item represents the name of the task
+            </summary>
+        </member>
+        <member name="F:WindowsFormsApplication1.Event.attendees">
+            <summary>
+            A list representing the attendess of the event.
+            Tuples contain a string representing the user's name and a list of available time slots.
+            </summary>
+        </member>
+        <member name="F:WindowsFormsApplication1.Event.capacity">
+            <summary>
+            The maximum number of attendees for each time slot before users can no longer add themselves as attendees.
+            </summary>
+        </member>
+        <member name="F:WindowsFormsApplication1.Event.numberOfAttendees">
+            <summary>
+            The number of attendees for an event.
+            </summary>
+        </member>
+        <member name="M:WindowsFormsApplication1.Event.#ctor(System.String,System.String,System.String,System.Collections.Generic.List{System.Tuple{System.DateTime,System.DateTime}},System.String,System.Int32,System.Int32,System.Collections.Generic.List{System.Tuple{System.String,System.String}})">
+            <summary>
+            Constructor for the event class
+            </summary>
+            <param name="eventName">The name of the event. User specified.</param>
+            <param name="hostName">The name of the host. Passed in from LoginPopup.</param>
+            <param name="description">A brief description of the event. User specified, optional.</param>
+            <param name="dateTimes">List of datetimes representing the user's selections</param>
+            <param name="loc">The event's location</param>
+            <param name="attending">Number attending the event</param>
+            <param name="cap">The event's capacity.</param>
+        </member>
+        <member name="M:WindowsFormsApplication1.Event.setName(System.String)">
+            <summary>
+            Set the event name.
+            </summary>
+            <param name="name">New name.</param>
+        </member>
+        <member name="M:WindowsFormsApplication1.Event.setHost(System.String)">
+            <summary>
+            Set the host name.
+            </summary>
+            <param name="hostName">new host name.</param>
+        </member>
+        <member name="M:WindowsFormsApplication1.Event.setLocation(System.String)">
+            <summary>
+            New location.
+            </summary>
+            <param name="loc">New location.</param>
+        </member>
+        <member name="M:WindowsFormsApplication1.Event.setBrief(System.String)">
+            <summary>
+            Set the description.
+            </summary>
+            <param name="msg">New description message.</param>
+        </member>
+        <member name="M:WindowsFormsApplication1.Event.setCapacity(System.Int32)">
+            <summary>
+            Set the capacity.
+            </summary>
+            <param name="cap">New capacity</param>
+        </member>
+        <member name="M:WindowsFormsApplication1.Event.setAttendees(System.Int32)">
+            <summary>
+            Set the number of attendees
+            </summary>
+            <param name="att">New number.</param>
+        </member>
+        <member name="M:WindowsFormsApplication1.Event.addAttendee(System.String,System.Collections.Generic.List{System.DateTime})">
+            <summary>
+            Add an attendee to the event
+            </summary>
+            <param name="name">The attendee's name</param>
+            <param name="availableSlots">The available time slots for an attendee to attend.</param>
+        </member>
+        <member name="M:WindowsFormsApplication1.Event.ToString">
+            <summary>
+            ToString overload for Event.cs. 
+            </summary>
+            <returns>Returns the event followed by number of attendees for use in UserWindow.</returns>
+        </member>
+        <member name="T:WindowsFormsApplication1.LoginPopup">
+            <summary>
+            The first form displayed upon startup. Prompts the user for a name.
+            May add a password feature if time permits.
+            Global Variables: None
+            Window: A Log In Text Box and a "Begin" button
+            </summary>
+            
+        </member>
+        <member name="M:WindowsFormsApplication1.LoginPopup.#ctor">
+            <summary>
+            Constructor for the login popup form.
+            Methods: loginButton_Click
+            ** Pre: None
+            ** Post: None
+            </summary>
+        </member>
+        <member name="M:WindowsFormsApplication1.LoginPopup.loginButton_Click(System.Object,System.EventArgs)">
+            <summary>
+            Click behavior for the login button
+            Opens the main window and passes the user's chosen name.
+            ** Pre: Dialog Box for Log In exists.
+            ** Post: A valid username is accepted and passed to an instance of User to save the user related data, and then to Main Window for other options 
+            </summary>
+            <param name="sender">The sending winforms object.</param>
+            <param name="e">Winforms event arguments.</param>
+        </member>
+        <member name="F:WindowsFormsApplication1.LoginPopup.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:WindowsFormsApplication1.LoginPopup.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:WindowsFormsApplication1.LoginPopup.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:WindowsFormsApplication1.RegisterEventWindow">
+            <summary>
+            Form allowing user to add a new event.
+            </summary>
+        </member>
+        <member name="M:WindowsFormsApplication1.RegisterEventWindow.#ctor(System.DateTime,System.Boolean,System.String)">
+            <summary>
+            Constructor for the RegisterEventWindow form.
+            </summary>
+            <param name="selectedDate">The date selected by the user.</param>
+            <param name="use24Hour">Whether 24 hour time will be used.</param>
+            <param name="username">The name provided by the user.</param>
+        </member>
+        <member name="M:WindowsFormsApplication1.RegisterEventWindow.Round(System.DateTime)">
+            <summary>
+            Round a DateTime to the nearest 30 minutes.
+            </summary>
+            <param name="dateTime">The Current Date selected by the user.</param>
+        </member>
+        <member name="M:WindowsFormsApplication1.RegisterEventWindow.saveButton_Click(System.Object,System.EventArgs)">
+            <summary>
+            Click behavior for the save button.
+            Check for valid input in the form and collect user input.
+            </summary>
+            <param name="sender">The sending winforms object.</param>
+            <param name="e">Winforms event arguments.</param>
+        </member>
+        <member name="M:WindowsFormsApplication1.RegisterEventWindow.buildEvent(System.Int32,System.Collections.Generic.List{System.Tuple{System.DateTime,System.DateTime}},System.Collections.Generic.List{System.Tuple{System.String,System.String}})">
+            <summary>
+            Builds a new event object from the user's input and writes it to file.
+            </summary>
+            <param name="capInt">The user's chosen capacity value, converted to int.</param>
+            <param name="dateTimes">The user's chosen DateTime time slots</param>
+        </member>
+        <member name="M:WindowsFormsApplication1.RegisterEventWindow.addSlotButton_Click(System.Object,System.EventArgs)">
+            <summary>
+            Click behavior for the add slot button.
+            Dynamically add two more combo boxes for the user to input a second, non-contiguous time slot.
+            </summary>
+            <param name="sender">The sending winforms object.</param>
+            <param name="e">Winforms event arguments.</param>
+        </member>
+        <member name="M:WindowsFormsApplication1.RegisterEventWindow.removeTimeSlotButton_Click(System.Object,System.EventArgs)">
+            <summary>
+            Click behavior for the remove time slot button.
+            Remove the last added time slot.
+            </summary>
+            <param name="sender">The sending winforms object.</param>
+            <param name="e">Winforms event arguments.</param>
+        </member>
+        <member name="M:WindowsFormsApplication1.RegisterEventWindow.capacityText_KeyPress(System.Object,System.Windows.Forms.KeyPressEventArgs)">
+            <summary>
+            KeyPress behavior for the capacity textbox.
+            Prevents the addition of any characters other than digits.
+            </summary>
+            <param name="sender">The sending winforms object.</param>
+            <param name="e">Winforms event arguments.</param>
+        </member>
+        <member name="T:WindowsFormsApplication1.RegisterEventWindow.ComboBoxDateTime">
+            <summary>
+            A wrapper for the DateTime class for 24 hour formatting.
+            </summary>
+        </member>
+        <member name="P:WindowsFormsApplication1.RegisterEventWindow.ComboBoxDateTime.shortTimeString">
+            <summary>
+            The short time string of the contained DateTime.
+            </summary>
+        </member>
+        <member name="P:WindowsFormsApplication1.RegisterEventWindow.ComboBoxDateTime.shortTimeStringForEndBoxes">
+            <summary>
+            The short time string of the contained date time, with (Next Day) appended if it's 12:00AM.
+            </summary>
+        </member>
+        <member name="F:WindowsFormsApplication1.RegisterEventWindow.ComboBoxDateTime.inner">
+            <summary>
+            The DateTime contained by the wrapper class.
+            </summary>
+        </member>
+        <member name="M:WindowsFormsApplication1.RegisterEventWindow.ComboBoxDateTime.#ctor(System.DateTime,System.Boolean)">
+            <summary>
+            Constructor for the ComboBoxDateTime wrapper object.
+            </summary>
+            <param name="dt">The dateTime to be contained by the object</param>
+            <param name="use24Hour">Whether to use 24 hour time.</param>
+        </member>
+        <member name="M:WindowsFormsApplication1.RegisterEventWindow.ComboBoxDateTime.ToString">
+            <summary>
+            ToString override for ComboBoxDateTime. 
+            </summary>
+            <returns>The short time string of the object's DateTime in the specified format.</returns>
+        </member>
+        <member name="M:WindowsFormsApplication1.RegisterEventWindow.cancelButton_Click(System.Object,System.EventArgs)">
+            <summary>
+            Click behavior for the cancel button.
+            Closes the window.
+            </summary>
+            <param name="sender">The sending winforms object.</param>
+            <param name="e">Winforms event arguments.</param>
+        </member>
+        <member name="M:WindowsFormsApplication1.RegisterEventWindow.setDayTimes(System.Object,System.EventArgs)">
+            <summary>
+            Sets Times for a specific day
+            </summary>
+        </member>
+        <member name="F:WindowsFormsApplication1.RegisterEventWindow.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:WindowsFormsApplication1.RegisterEventWindow.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:WindowsFormsApplication1.RegisterEventWindow.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:WindowsFormsApplication1.MainWindow">
+            <summary>
+            Primary form allowing for mode selection.
+            </summary>
+        </member>
+        <member name="M:WindowsFormsApplication1.MainWindow.#ctor(System.String)">
+            <summary>
+            Constructor for the main window. 
+            </summary>
+            <param name="userName">The name provided by the user in LoginPopup.</param>
+        </member>
+        <member name="M:WindowsFormsApplication1.MainWindow.addEventsButton_Click(System.Object,System.EventArgs)">
+            <summary>
+            Click behavior for the button to open the RegisterEventWindow.
+            </summary>
+            <param name="sender">The sending winforms object.</param>
+            <param name="e">Winforms event arguments.</param>
+        </member>
+        <member name="M:WindowsFormsApplication1.MainWindow.addAvailabilityButton_Click(System.Object,System.EventArgs)">
+            <summary>
+            Click behavior for the button to open the UserWindow.
+            </summary>
+            <param name="sender">The sending winforms object.</param>
+            <param name="e">Winforms event arguments.</param>
+        </member>
+        <member name="M:WindowsFormsApplication1.MainWindow.mainCalendar_DateChanged(System.Object,System.Windows.Forms.DateRangeEventArgs)">
+            <summary>
+            Date Changed behavior for the calendar. Updates a label with the selected date.
+            </summary>
+            <param name="sender">The sending winforms object.</param>
+            <param name="e">Winforms event arguments.</param>
+        </member>
+        <member name="M:WindowsFormsApplication1.MainWindow.mainWindow_Load(System.Object,System.EventArgs)">
+            <summary>
+            Load behavior for the main window. Displays the user's name and updates a label to the current date.
+            </summary>
+            <param name="sender">The sending winforms object.</param>
+            <param name="e">Winforms event arguments.</param>
+        </member>
+        <member name="M:WindowsFormsApplication1.MainWindow.twentyFourCheckbox_CheckedChanged(System.Object,System.EventArgs)">
+            <summary>
+            CheckedChanged behavior for the 24 hour mode checkbox. Updates a boolean representing the selected mode.
+            </summary>
+            <param name="sender">The sending winforms object.</param>
+            <param name="e">Winforms event arguments.</param>
+        </member>
+        <member name="M:WindowsFormsApplication1.MainWindow.clearEventsButton_Click(System.Object,System.EventArgs)">
+            <summary>
+            Click behavior for the clear events button.
+            Deletes the event data JSON file.
+            </summary>
+            <param name="sender">The sending winforms object.</param>
+            <param name="e">Winforms event arguments.</param>
+        </member>
+        <member name="M:WindowsFormsApplication1.MainWindow.checkEventsButton_Click(System.Object,System.EventArgs)">
+            <summary>
+            Click behavior for the Check Events button. 
+            Opens the check events form.
+            </summary>
+            <param name="sender">The sending winforms object.</param>
+            <param name="e">Winforms event arguments.</param>
+        </member>
+        <member name="M:WindowsFormsApplication1.MainWindow.currentDateLabel_TextChanged_1(System.Object,System.EventArgs)">
+            <summary>
+            TextChanged behavior for the current date label.
+            Appends "selected date:" to the front.
+            </summary>
+            <param name="sender">The sending winforms object.</param>
+            <param name="e">Winforms event arguments.</param>
+        </member>
+        <member name="F:WindowsFormsApplication1.MainWindow.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:WindowsFormsApplication1.MainWindow.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:WindowsFormsApplication1.MainWindow.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="M:WindowsFormsApplication1.Program.Main">
+            <summary>
+            The main entry point for the application.
+            ** Pre: All application files exists
+            ** Post: 1. Visual Styles enabled
+                     2. Set Text Rendering
+                     3. Calls the first form/dialog box - LoginPopup
+            </summary>
+            
+        </member>
+        <member name="T:WindowsFormsApplication1.User">
+            <summary>
+            A class representing user related information to be saved to a JSON File
+            </summary>
+            
+        </member>
+        <member name="F:WindowsFormsApplication1.User.userName">
+            <summary>
+            Constructor for User
+            Assigns the accepted name and ID to userName and userId.
+            ** Pre: A valid name and ID is passed in
+            ** Post: Global variables userName and userId are initialized with the values passed in
+            </summary>
+        </member>
+        <member name="F:WindowsFormsApplication1.User.userID">
+            <summary>
+            A unique user ID
+            </summary>
+        </member>
+        <member name="F:WindowsFormsApplication1.User.userPassword">
+            <summary>
+            The user's password.
+            </summary>
+        </member>
+        <member name="F:WindowsFormsApplication1.User.userCreatedEvents">
+            <summary>
+            The list of events created by a user.
+            </summary>
+        </member>
+        <member name="F:WindowsFormsApplication1.User.userAttendingEvents">
+            <summary>
+            The list of events a user is attending.
+            </summary>
+        </member>
+        <member name="M:WindowsFormsApplication1.User.#ctor(System.String,System.Int32,System.String,System.Collections.Generic.List{System.String},System.Collections.Generic.List{System.String})">
+            <summary>
+            The constructor for the User object.
+            </summary>
+            <param name="name">the user's chosen name.</param>
+            <param name="ID">a unique user ID</param>
+            <param name="password">The user's chosen password</param>
+            <param name="attending">A list of names of events the user is attending.</param>
+            <param name="created">A list of names of events the user has created.</param>
+        </member>
+        <member name="M:WindowsFormsApplication1.User.Login(WindowsFormsApplication1.User,WindowsFormsApplication1.LoginPopup)">
+            <summary>
+            A method to handle the user login process.
+            </summary>
+            <param name="checker"></param>
+        </member>
+        <member name="M:WindowsFormsApplication1.User.createAccount(WindowsFormsApplication1.User,WindowsFormsApplication1.LoginPopup)">
+            <summary>
+            Method to handle the creation of new user accounts.
+            </summary>
+            <param name="checker"></param>
+        </member>
+        <member name="M:WindowsFormsApplication1.User.closeLogin(WindowsFormsApplication1.LoginPopup)">
+            <summary>
+            Close the login popup.
+            </summary>
+        </member>
+        <member name="T:WindowsFormsApplication1.UserWindow">
+            <summary>
+            Form displaying events for guests to add their availability.
+            </summary>
+        </member>
+        <member name="M:WindowsFormsApplication1.UserWindow.HideCaret(System.IntPtr)">
+            <summary>
+            A method used in hiding the insertion caret.
+            </summary>
+        </member>
+        <member name="M:WindowsFormsApplication1.UserWindow.#ctor(System.Boolean,System.DateTime,System.String)">
+            <summary>
+            Constructor for the user window.
+            </summary>
+            <param name="use24Hour">Whether to use 24 hour times in the 'agenda' panel.</param>
+            <param name="selectedDate">The date selected previously on the main window calendar.</param>
+            <param name="userName">The username entered in LoginPopup</param>
+        </member>
+        <member name="M:WindowsFormsApplication1.UserWindow.monthCalendar1_DateSelected(System.Object,System.Windows.Forms.DateRangeEventArgs)">
+            <summary>
+            Date Selected behavior for the calendar.
+            Updates the selected date when it changes and updates the 'agenda' panel to show that day's events
+            </summary>
+            <param name="sender">The sending winforms object.</param>
+            <param name="e">Winforms event arguments.</param>
+        </member>
+        <member name="M:WindowsFormsApplication1.UserWindow.doneButton_Click(System.Object,System.EventArgs)">
+            <summary>
+            Click behavior for the done button.
+            Closes the window.
+            </summary>
+            <param name="sender">The sending winforms object.</param>
+            <param name="e">Winforms event arguments.</param>
+        </member>
+        <member name="M:WindowsFormsApplication1.UserWindow.getEventsForTheDay(System.DateTime)">
+            <summary>
+            Populates dayEvents with the list of events for the selected day.
+            </summary>
+            <param name="currentTime">The time to pull the selected day from.</param>
+        </member>
+        <member name="M:WindowsFormsApplication1.UserWindow.UserWindow_Load(System.Object,System.EventArgs)">
+            <summary>
+            Load behavior for the user window.
+            Populates the 'agenda' panel of textboxes and loads the events from the day selected in MainWindow into them.
+            </summary>
+            <param name="sender">The sending winforms object.</param>
+            <param name="e">Winforms event arguments.</param>
+        </member>
+        <member name="M:WindowsFormsApplication1.UserWindow.Text_Click(System.Object,System.EventArgs)">
+            <summary>
+            Click behavior for the Agenda text boxes.
+            Opens the addavailabilitywindow so the user can flag themselves available for events.
+            </summary>
+            <param name="sender">The sending winforms object.</param>
+            <param name="e">Winforms event arguments.</param>
+        </member>
+        <member name="M:WindowsFormsApplication1.UserWindow.pullEventsFromJSON">
+            <summary>
+            Deserialize the JSON save file into a list of events.
+            </summary>
+        </member>
+        <member name="M:WindowsFormsApplication1.UserWindow.hideTextBoxCursor(System.Object,System.EventArgs)">
+            <summary>
+            GotFocus behavior for the agenda text boxes. Hides the insertion caret.
+            </summary>
+            <param name="sender">The sending winforms object.</param>
+            <param name="args">Winforms event arguments.</param>
+        </member>
+        <member name="M:WindowsFormsApplication1.UserWindow.closeButton_Click(System.Object,System.EventArgs)">
+            <summary>
+            Click behavior for the close button. Closes the form.
+            </summary>
+            <param name="sender">The sending winforms object.</param>
+            <param name="e">Winforms event arguments.</param>
+        </member>
+        <member name="F:WindowsFormsApplication1.UserWindow.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:WindowsFormsApplication1.UserWindow.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:WindowsFormsApplication1.UserWindow.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:WindowsFormsApplication1.Properties.Resources">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:WindowsFormsApplication1.Properties.Resources.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:WindowsFormsApplication1.Properties.Resources.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="T:AvailabilityCheckBox">
+            <summary>
+            An overloaded CheckBox which is associated with a DateTime.
+            </summary>
+        </member>
+    </members>
+</doc>

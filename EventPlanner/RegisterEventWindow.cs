@@ -22,7 +22,7 @@ namespace WindowsFormsApplication1
         IDictionary<string,Day> Days = new Dictionary<string,Day>();
         //user can add new time slots to an event 
         //maintain a list of the boxes for entering these so we can reference them when they save
-        List<Tuple<ComboBox, ComboBox>> recurTimeBoxes = new List<Tuple<ComboBox, ComboBox>>();
+        List<Tuple<ComboBox, ComboBox>> timeBoxes = new List<Tuple<ComboBox, ComboBox>>();
         List<Tuple<CueTextBox, CueTextBox>> eventTasks = new List<Tuple<CueTextBox, CueTextBox>>();
         List<Tuple<Label, Button>> dateBox = new List<Tuple<Label, Button>>();
 
@@ -80,13 +80,15 @@ namespace WindowsFormsApplication1
             Label newDateLabel = new Label();
             //add stuff to new label
             newDateLabel.Text = selectedDate.ToShortDateString();
-            newDateLabel.Size = new System.Drawing.Size(80, 24);
+            newDateLabel.Size = new System.Drawing.Size(180, 24);
             newDateLabel.TextAlign = ContentAlignment.MiddleCenter;
 
             Button newDateButton = new Button();
             //add stuff to new button
             newDateButton.Text = "Set Times from Below";
-            newDateButton.Size = new System.Drawing.Size(140, 24);
+            newDateButton.Size = new System.Drawing.Size(180, 24);
+            newDateButton.Tag = selectedDate.ToShortDateString();
+            newDateButton.Click += new EventHandler(this.setDayTimes);
 
             dateBox.Add(new Tuple<Label, Button>(newDateLabel, newDateButton));
 
@@ -104,7 +106,7 @@ namespace WindowsFormsApplication1
             //endTimeBox.DisplayMember = "shortTimeStringForEndBoxes";
 
             //put the time boxes in a tuple to associate them and put it in a list to keep track of it
-            //recurTimeBoxes.Add(new Tuple<ComboBox, ComboBox>(startTimeBox, endTimeBox));
+            //timeBoxes.Add(new Tuple<ComboBox, ComboBox>(startTimeBox, endTimeBox));
         }
 
         /// <summary>
@@ -162,7 +164,8 @@ namespace WindowsFormsApplication1
                 ListOfTasks.Add(new Tuple<String, String>(person, taskDef));
             }
 
-            foreach (Tuple<ComboBox, ComboBox> currentBoxes in recurTimeBoxes)
+
+            foreach (Tuple<ComboBox, ComboBox> currentBoxes in timeBoxes)
             {
                 //ensure the time slots are valid
                 //if end time is 12:00 AM that is equivalent to 11:59:59 pm, not a repeat or smaller number.
@@ -321,7 +324,7 @@ namespace WindowsFormsApplication1
             newEndBox.DataSource = halfHourDateTimesForEnd;
             newEndBox.DropDownStyle = ComboBoxStyle.DropDownList;
 
-            recurTimeBoxes.Add(new Tuple<ComboBox, ComboBox>(newStartBox, newEndBox));
+            timeBoxes.Add(new Tuple<ComboBox, ComboBox>(newStartBox, newEndBox));
             flowLayoutPanel1.Controls.Add(newStartBox);
             flowLayoutPanel1.Controls.Add(newEndBox);
             //add another row of combo boxes for the user to add another, non-contiguous timeslot
@@ -355,11 +358,11 @@ namespace WindowsFormsApplication1
         /// <param name="e">Winforms event arguments.</param>
         private void removeTimeSlotButton_Click(object sender, EventArgs e)
         {
-            if (recurTimeBoxes.Count >= 1)
+            if (timeBoxes.Count >= 1)
             {
-                flowLayoutPanel1.Controls.Remove(recurTimeBoxes.Last().Item1);
-                flowLayoutPanel1.Controls.Remove(recurTimeBoxes.Last().Item2);
-                recurTimeBoxes.Remove(recurTimeBoxes.Last());
+                flowLayoutPanel1.Controls.Remove(timeBoxes.Last().Item1);
+                flowLayoutPanel1.Controls.Remove(timeBoxes.Last().Item2);
+                timeBoxes.Remove(timeBoxes.Last());
             }
         }
 
@@ -471,14 +474,15 @@ namespace WindowsFormsApplication1
                     Label newDateLabel = new Label();
                     //add stuff to new label
                     newDateLabel.Text = newDate.ToShortDateString();
-                    newDateLabel.Size = new System.Drawing.Size(80, 24);
+                    newDateLabel.Size = new System.Drawing.Size(180, 24);
                     newDateLabel.TextAlign = ContentAlignment.MiddleCenter;
 
                     Button newDateButton = new Button();
                     //add stuff to new button
                     newDateButton.Text = "Set Times From Below";
-                    newDateButton.Size = new System.Drawing.Size(140, 24);
-                    //newDateButton.Click += delegate(object sender, EventArgs e) { setDayTimes(sender, e, newDate); } ;
+                    newDateButton.Size = new System.Drawing.Size(180, 24);
+                    newDateButton.Tag = newDate.ToShortDateString();
+                    newDateButton.Click += new EventHandler(this.setDayTimes);
 
                     dateBox.Add(new Tuple<Label, Button>(newDateLabel, newDateButton));
 
@@ -493,10 +497,11 @@ namespace WindowsFormsApplication1
         /// <summary>
         /// Sets Times for a specific day
         /// </summary>
-        private void setDayTimes(DateTime selectedDate)
+        private void setDayTimes(object sender, EventArgs e)
         {
-            
-            Day day = new Day(selectedDate);
+            Console.WriteLine("working");
+            string d = (string)(sender as Button).Tag;
+            //Day day = new Day(selectedDate);
 
             bool comboBoxError = false;
             bool timeWindowError = false;
@@ -505,7 +510,7 @@ namespace WindowsFormsApplication1
 
             List<Tuple<DateTime, DateTime>> dateTimes = new List<Tuple<DateTime, DateTime>>();
 
-            foreach (Tuple<ComboBox, ComboBox> currentBoxes in recurTimeBoxes)
+            foreach (Tuple<ComboBox, ComboBox> currentBoxes in timeBoxes)
             {
                 //ensure the time slots are valid
                 //if end time is 12:00 AM that is equivalent to 11:59:59 pm, not a repeat or smaller number.
@@ -546,7 +551,26 @@ namespace WindowsFormsApplication1
             }
             else
             {
-                
+                Day newDay = new Day(d,timeBoxes);
+                string times = "-> ";
+                foreach (Tuple<ComboBox, ComboBox> currentBox in timeBoxes)
+                {
+                    DateTime startTime = (currentBox.Item1.SelectedValue as ComboBoxDateTime).inner;
+                    DateTime endTime = (currentBox.Item2.SelectedValue as ComboBoxDateTime).inner;
+
+                    times += startTime.ToShortTimeString() + "-" + endTime.ToShortTimeString() + "; ";
+                }
+
+                MessageBox.Show("For date: " + d + ", the following times were set " + times);
+
+                if (Days.ContainsKey(d))
+                {
+                    Days[d] = newDay;
+                }
+                else
+                {
+                    Days.Add(d, newDay);
+                }
             }
         }
 
