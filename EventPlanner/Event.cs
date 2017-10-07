@@ -168,6 +168,11 @@ namespace WindowsFormsApplication1
         }
         #endregion
         
+        /// <summary>
+        /// Setter for updating a task within the event task list with a username
+        /// </summary>
+        /// <param name="name"></param> Name of user 
+        /// <param name="index"></param> index of task to be updated
         public void setTask(string name, int index)
         {
             //First, Check to see if the task is already being completed by someone else

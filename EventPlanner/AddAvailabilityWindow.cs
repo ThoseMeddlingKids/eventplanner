@@ -383,6 +383,17 @@ namespace WindowsFormsApplication1
                         availableTimes.Add(checkboxList[i].associatedDateTime);
                     }
                 }
+
+                //Iterate through check boxes and affiliate the name of the user with the tasks they check
+                for (int j = 0; j < taskList.Count; j++)
+                {
+                    //If the boxes in the taskList are checked
+                    if (taskList[j].Checked)
+                    {
+                        //Set the task to the user who is entering their task preference.
+                        realEvent.setTask(userName, j);
+                    }
+                }
                 WriteToJSON(realEvent);
             }
             this.Close();
