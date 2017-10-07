@@ -40,6 +40,9 @@ namespace WindowsFormsApplication1
         /// The list of events a user is attending.
         /// </summary>
         public List<string> userAttendingEvents = new List<string>();
+        /// <summary>
+        /// Path of JSON save file
+        /// </summary>
         private string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\userSaveFile.json";
         private JsonSerializer serializer = new JsonSerializer();
 

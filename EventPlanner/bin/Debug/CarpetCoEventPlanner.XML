@@ -605,6 +605,11 @@
             The list of events a user is attending.
             </summary>
         </member>
+        <member name="F:WindowsFormsApplication1.User.path">
+            <summary>
+            Path of JSON save file
+            </summary>
+        </member>
         <member name="M:WindowsFormsApplication1.User.#ctor(System.String,System.Int32,System.String,System.Collections.Generic.List{System.String},System.Collections.Generic.List{System.String})">
             <summary>
             The constructor for the User object.

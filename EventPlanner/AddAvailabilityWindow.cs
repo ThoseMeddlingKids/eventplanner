@@ -36,6 +36,7 @@ namespace WindowsFormsApplication1
         {
             checkboxList = new List<AvailabilityCheckBox>();
             availableTimes = new List<DateTime>();
+            //New List Of Tasks displayed as Checkboxes
             taskList = new List<CheckBox>();
             path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\eventSaveFile.json";
             this.userName = userName;
@@ -185,9 +186,6 @@ namespace WindowsFormsApplication1
 
                 DateTime startTimeBox = selectedEvent.dateTimes[i].Item1;
 
-                //Grabs the text affiliated with a specific task in the list of event tasks so it can be used.
-                
-
                 CheckUnavailableTimes(minuteIntervals, startTimeBox, selectedEvent);
 
                 for (int j = 0; j < minuteIntervals; j++)
@@ -221,7 +219,7 @@ namespace WindowsFormsApplication1
                 //Users will be able to input that they are completing the task when they are added to the taskPanel
                 for (int k = 0; i < selectedEvent.ThisEventTaskList.Count; i++)
                 {
-                    String task = selectedEvent.ThisEventTaskList[k].Item1;
+                    String task = selectedEvent.ThisEventTaskList[k].Item2;
                     CheckBox taskBox = AddTaskBox(task); 
                     taskPanel.Controls.Add(taskBox);
                 }

@@ -23,7 +23,7 @@ namespace WindowsFormsApplication1
         //user can add new time slots to an event 
         //maintain a list of the boxes for entering these so we can reference them when they save
         List<Tuple<ComboBox, ComboBox>> timeBoxes = new List<Tuple<ComboBox, ComboBox>>();
-        List<Tuple<CueTextBox, CueTextBox>> eventTasks = new List<Tuple<CueTextBox, CueTextBox>>();
+        List<CueTextBox> eventTasks = new List<CueTextBox>();
         List<Tuple<Label, Button>> dateBox = new List<Tuple<Label, Button>>();
 
         List<ComboBoxDateTime> halfHourDateTimes = new List<ComboBoxDateTime>();
@@ -157,10 +157,10 @@ namespace WindowsFormsApplication1
             int.TryParse(capacityText.Text, out capInt);
 
             //Adds Each Task Created by the event host to the master list of tasks affiliated with the event
-            foreach (Tuple<CueTextBox, CueTextBox> task in eventTasks)
+            foreach (CueTextBox task in eventTasks)
             {
-                String person = (task.Item1.SelectedText as String);
-                String taskDef = (task.Item2.SelectedText as String);
+                String person = "";
+                String taskDef = task.Text;
                 ListOfTasks.Add(new Tuple<String, String>(person, taskDef));
             }
 
@@ -334,18 +334,11 @@ namespace WindowsFormsApplication1
         //Adds CueBoxes to the second flow layout panel dynamically.
         private void AddTaskBtn_Click(object sender, EventArgs e)
         {
-            CueTextBox WhoWillCompleteThisTask = new CueTextBox();
-            
-            //WhoWillCompleteThisTask.BindingContext = new BindingContext();
-
             CueTextBox NameOfTask = new CueTextBox();
-            
-            //NameOfTask.BindingContext = new BindingContext();
+            NameOfTask.Cue = "Enter a new task";
 
-            eventTasks.Add(new Tuple<CueTextBox, CueTextBox>(WhoWillCompleteThisTask, NameOfTask));
-            flowLayoutPanel2.Controls.Add(WhoWillCompleteThisTask);
+            eventTasks.Add(new CueTextBox());
             flowLayoutPanel2.Controls.Add(NameOfTask);
-            //add another row of combo boxes for the user to add another, non-contiguous timeslot
         }
 
         
@@ -371,8 +364,7 @@ namespace WindowsFormsApplication1
         {
             if (eventTasks.Count >= 1)
             {
-                flowLayoutPanel2.Controls.Remove(eventTasks.Last().Item1);
-                flowLayoutPanel2.Controls.Remove(eventTasks.Last().Item2);
+                flowLayoutPanel2.Controls.Remove(eventTasks.Last());
                 eventTasks.Remove(eventTasks.Last());
             }
         }
@@ -583,5 +575,6 @@ namespace WindowsFormsApplication1
                 dateBox.Remove(dateBox.Last());
             }
         }
+
     }
 }

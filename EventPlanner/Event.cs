@@ -167,6 +167,23 @@ namespace WindowsFormsApplication1
             numberOfAttendees += att;
         }
         #endregion
+        
+        public void setTask(string name, int index)
+        {
+            //First, Check to see if the task is already being completed by someone else
+            if (ThisEventTaskList[index].Item1 == "")
+            {
+                //Save event task name in a temp string
+                string temptask = ThisEventTaskList[index].Item2;
+                //remove the tuple from the list 
+                ThisEventTaskList.RemoveAt(index);
+                //Create a new updated tuple with the name of the person who is completing the task.
+                Tuple<String, String> updatedTask = new Tuple<String, String>(name, temptask);
+                //Insert the task back in it's necessary position in the list.
+                ThisEventTaskList.Insert(index, updatedTask);
+            }
+        }
+        
         /*
         NOTE:Maybe we'll eventually show everyone who is going to said event?
         */
