@@ -30,6 +30,15 @@
             Changes displayed event info.
             </summary>
         </member>
+        <member name="M:WindowsFormsApplication1.AddAvailabilityWindow.AddTaskBox(System.String)">
+            <summary>
+            AddTaskBox
+            This Method taks in a given task as a string, and creates a new chekbox affiliated with that task
+            Users Can then choose to sign up for a given task once it is generated on the flowLayoutPanel taskPanel
+            </summary>
+            <param name="task"></param> This is the string affiliated with the task itself. Onselection of a task, the event attendee's name will be added in item 1.
+            <returns></returns>
+        </member>
         <member name="M:WindowsFormsApplication1.AddAvailabilityWindow.CheckUnavailableTimes(System.Int32,System.DateTime,WindowsFormsApplication1.Event)">
             <summary>
             Add Unavailable Times To List So They Can't Be Selected

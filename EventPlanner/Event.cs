@@ -105,7 +105,7 @@ namespace WindowsFormsApplication1
             this.capacity = cap;
 
             /// why is this here
-            Console.WriteLine("WTFFFFF " + this.capacity);
+            //Console.WriteLine("WTFFFFF " + this.capacity);
             this.ThisEventTaskList = ThisEventTaskList;
 
             this.attendees = new List<Tuple<string, List<DateTime>>>();
@@ -225,6 +225,11 @@ namespace WindowsFormsApplication1
         public List<Tuple<String, List<DateTime>>> getAttendees()
         {
             return (attendees);
+        }
+
+        public List<Tuple<String, String>> getTasksList()
+        {
+            return (ThisEventTaskList);
         }
         #endregion
 

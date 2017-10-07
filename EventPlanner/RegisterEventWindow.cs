@@ -212,7 +212,7 @@ namespace WindowsFormsApplication1
                 foreach (Event evt in evts)
                 {
                     if (evt.nameOfEvent == nameTextBox.Text)
-                    {
+                    { 
                         inputError = true;
                         errorText = String.Concat(errorText, "\nEvent name already exists.");
                     }
@@ -369,7 +369,7 @@ namespace WindowsFormsApplication1
         //deletes instances of task cueboxes created within the flow layout panel
         private void DeleteTaskBtn_Click(object sender, EventArgs e)
         {
-            if (eventTasks.Count > 1)
+            if (eventTasks.Count >= 1)
             {
                 flowLayoutPanel2.Controls.Remove(eventTasks.Last().Item1);
                 flowLayoutPanel2.Controls.Remove(eventTasks.Last().Item2);

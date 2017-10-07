@@ -15,7 +15,7 @@ namespace WindowsFormsApplication1
         private string userName;
         private List<AvailabilityCheckBox> checkboxList = new List<AvailabilityCheckBox>();
         private List<DateTime> availableTimes = new List<DateTime>(); //times where user is joining an event
-
+        private List<CheckBox> taskList;
         private List<DateTime> possibleTimes = new List<DateTime>(); //possible times attend event
         private List<int> attendeesPerTime = new List<int>(); //list of attendees joining at certain times
         private List<DateTime> unAvailableTimes = new List<DateTime>();
@@ -36,6 +36,7 @@ namespace WindowsFormsApplication1
         {
             checkboxList = new List<AvailabilityCheckBox>();
             availableTimes = new List<DateTime>();
+            taskList = new List<CheckBox>();
             path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\eventSaveFile.json";
             this.userName = userName;
             this.allEvents = allEvents;
@@ -184,6 +185,9 @@ namespace WindowsFormsApplication1
 
                 DateTime startTimeBox = selectedEvent.dateTimes[i].Item1;
 
+                //Grabs the text affiliated with a specific task in the list of event tasks so it can be used.
+                
+
                 CheckUnavailableTimes(minuteIntervals, startTimeBox, selectedEvent);
 
                 for (int j = 0; j < minuteIntervals; j++)
@@ -208,11 +212,37 @@ namespace WindowsFormsApplication1
                     {
                         cB.Enabled = false;
                     }
-                    
-                    
+
                     startTimeBox = startTimeBox.AddMinutes(30);
                 }
+
+                //For Each Task in the event's Task List
+                //Grab the name of the task and create a textbox affiliated with that task name
+                //Users will be able to input that they are completing the task when they are added to the taskPanel
+                for (int k = 0; i < selectedEvent.ThisEventTaskList.Count; i++)
+                {
+                    String task = selectedEvent.ThisEventTaskList[k].Item1;
+                    CheckBox taskBox = AddTaskBox(task); 
+                    taskPanel.Controls.Add(taskBox);
+                }
             }
+        }
+
+
+        /// <summary>
+        /// AddTaskBox
+        /// This Method taks in a given task as a string, and creates a new chekbox affiliated with that task
+        /// Users Can then choose to sign up for a given task once it is generated on the flowLayoutPanel taskPanel
+        /// </summary>
+        /// <param name="task"></param> This is the string affiliated with the task itself. Onselection of a task, the event attendee's name will be added in item 1.
+        /// <returns></returns>
+        private CheckBox AddTaskBox(string task)
+        {
+            CheckBox cB = new CheckBox();
+            cB.Text = task;
+
+            taskList.Add(cB);
+            return (cB);
         }
 
         /// <summary>
@@ -277,6 +307,8 @@ namespace WindowsFormsApplication1
                 capacityWarning.Refresh();
             }
         }
+
+
 
         /// <summary>
         /// Adds checkboxes for users to select their available times.
