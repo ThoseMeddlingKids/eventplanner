@@ -97,6 +97,7 @@ namespace WindowsFormsApplication1
         /// <param name="e">Winforms event arguments.</param>
         private void yourEventsBox_SelectedValueChanged(object sender, EventArgs e)
         {
+            List<CheckBox> taskChecks = new List<CheckBox>();
             Event ev = (Event)yourEventsBox.SelectedItem;
             if (ev.dateTimes != null && ev.dateTimes.Count != 0)
             {
@@ -122,6 +123,8 @@ namespace WindowsFormsApplication1
                         int count = 0;
                         start = tuple.Item2[0];
                         end = start;
+
+
 
 
                         //go through the list and adding start/end date to strings
@@ -197,6 +200,19 @@ namespace WindowsFormsApplication1
                         attendeesBox.Text += String.Join(", ", timeStrings);
                         attendeesBox.Text += "\r\n";
                     }
+
+                    foreach (Tuple<String, String> task in ev.ThisEventTaskList)
+                    {
+                        CheckBox cb = new CheckBox();
+                        cb.Text = task.Item2;
+                        if (task.Item1 != "")
+                        {
+                            cb.Checked = true;
+                        }
+                        taskChecks.Add(cb);
+                        flowLayoutPanel1.Controls.Add(cb);
+                    }
+                     
                 }
             }
         }

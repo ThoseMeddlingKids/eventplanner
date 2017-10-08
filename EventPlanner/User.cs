@@ -68,6 +68,7 @@ namespace WindowsFormsApplication1
         /// A method to handle the user login process.
         /// </summary>
         /// <param name="checker"></param>
+        /// <param name="login"></param>
         public void Login(User checker, LoginPopup login)
         {
             try
@@ -124,6 +125,7 @@ namespace WindowsFormsApplication1
         /// Method to handle the creation of new user accounts.
         /// </summary>
         /// <param name="checker"></param>
+        /// <param name="login"></param>
         public void createAccount(User checker, LoginPopup login)
         {
             try

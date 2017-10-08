@@ -220,6 +220,7 @@ namespace WindowsFormsApplication1
                 for (int k = 0; i < selectedEvent.ThisEventTaskList.Count; i++)
                 {
                     String task = selectedEvent.ThisEventTaskList[k].Item2;
+                    
                     CheckBox taskBox = AddTaskBox(task); 
                     taskPanel.Controls.Add(taskBox);
                 }
@@ -381,17 +382,6 @@ namespace WindowsFormsApplication1
                     if (checkboxList[i].Checked)
                     {
                         availableTimes.Add(checkboxList[i].associatedDateTime);
-                    }
-                }
-
-                //Iterate through check boxes and affiliate the name of the user with the tasks they check
-                for (int j = 0; j < taskList.Count; j++)
-                {
-                    //If the boxes in the taskList are checked
-                    if (taskList[j].Checked)
-                    {
-                        //Set the task to the user who is entering their task preference.
-                        realEvent.setTask(userName, j);
                     }
                 }
                 WriteToJSON(realEvent);

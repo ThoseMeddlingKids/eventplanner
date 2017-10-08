@@ -19,10 +19,14 @@ namespace WindowsFormsApplication1
     public partial class RegisterEventWindow : Form
     {
 
+        //Set of Days for an event
         IDictionary<string,Day> Days = new Dictionary<string,Day>();
+
         //user can add new time slots to an event 
         //maintain a list of the boxes for entering these so we can reference them when they save
         List<Tuple<ComboBox, ComboBox>> timeBoxes = new List<Tuple<ComboBox, ComboBox>>();
+
+        //users can add tasks to an event
         List<CueTextBox> eventTasks = new List<CueTextBox>();
         List<Tuple<Label, Button>> dateBox = new List<Tuple<Label, Button>>();
 
@@ -31,6 +35,7 @@ namespace WindowsFormsApplication1
         private string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\eventSaveFile.json";
 
         private string userName;
+        List<DateTime> ListOfDatesForEvent;
 
         /// <summary>
         /// Constructor for the RegisterEventWindow form.
@@ -164,7 +169,7 @@ namespace WindowsFormsApplication1
                 ListOfTasks.Add(new Tuple<String, String>(person, taskDef));
             }
 
-
+            
             foreach (Tuple<ComboBox, ComboBox> currentBoxes in timeBoxes)
             {
                 //ensure the time slots are valid
@@ -240,7 +245,7 @@ namespace WindowsFormsApplication1
             }
             else
             {
-                buildEvent(capInt, dateTimes, ListOfTasks);
+                    buildEvent(capInt, dateTimes, ListOfTasks);
             }
         }
 
@@ -249,6 +254,7 @@ namespace WindowsFormsApplication1
         /// </summary>
         /// <param name="capInt">The user's chosen capacity value, converted to int.</param>
         /// <param name="dateTimes">The user's chosen DateTime time slots</param>
+        /// <param name="MasterTaskList"></param>
         private void buildEvent(int capInt, List<Tuple<DateTime, DateTime>> dateTimes, List<Tuple<String, String>> MasterTaskList)
         {
             //Write event specified by user to file
