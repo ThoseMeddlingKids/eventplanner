@@ -39,9 +39,15 @@ namespace WindowsFormsApplication1
         public void AddDayButton_Click(object sender, EventArgs e)
         {
             this.selectedDate = mainCalendar.SelectionStart;
-            //if (selectedDate.ToShortDateString() (sender as RegisterEventWindow))
-            this.DialogResult = DialogResult.OK;
-            this.Close();
+            if (selectedDate < DateTime.Today)
+            {
+                MessageBox.Show("Select a current or future date to add events.");
+            }
+            else
+            {
+                this.DialogResult = DialogResult.OK;
+                this.Close();
+            }
         }
 
         private void cancelButton_Click(object sender, EventArgs e)

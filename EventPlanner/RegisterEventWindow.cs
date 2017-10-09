@@ -152,7 +152,7 @@ namespace WindowsFormsApplication1
                 DateTime previousEndTime = DateTime.MinValue;
                 DateTime previousStartTime = DateTime.MinValue;
 
-                nameTextBox.Text += "->" + day.date;
+                nameTextBox.Text += "->" + day.date.ToShortDateString();
 
                 int capInt;
                 bool timeWindowError = false;
@@ -257,6 +257,7 @@ namespace WindowsFormsApplication1
                         buildEvent(capInt, day.timeBoxForDay, ListOfTasks);
                     }
                 }
+                nameTextBox.Text = nameTextBox.Text.Split(new string[] { "->" }, StringSplitOptions.None)[0];
             }
         }
 
@@ -510,6 +511,7 @@ namespace WindowsFormsApplication1
         {
             DateTime d = (DateTime)(sender as Button).Tag;
             //Day day = new Day(selectedDate);
+            //MessageBox.Show(d.Date.ToShortDateString());
 
             bool comboBoxError = false;
             bool timeWindowError = false;
@@ -517,6 +519,7 @@ namespace WindowsFormsApplication1
             string errorText = "";
 
             List<Tuple<DateTime, DateTime>> dateTimes = new List<Tuple<DateTime, DateTime>>();
+            List<Tuple<DateTime, DateTime>> newDateTimes = new List<Tuple<DateTime, DateTime>>();
 
             foreach (Tuple<ComboBox, ComboBox> currentBoxes in timeBoxes)
             {
@@ -552,6 +555,25 @@ namespace WindowsFormsApplication1
                 dateTimes.Sort((x, y) => DateTime.Compare(x.Item1, y.Item1));
 
             }
+            
+            if (dateTimes.Count != 0)
+            {
+                DateTime test = dateTimes[0].Item1;
+                int dayNum = 0;
+                if (test.Date != d.Date)
+                {
+                    dayNum = (d - test).Days + 1;
+                }
+                test = test.AddDays(dayNum);
+                foreach (Tuple<DateTime, DateTime> times in dateTimes)
+                {
+                    DateTime one = times.Item1.AddDays(dayNum);
+                    DateTime two = times.Item2.AddDays(dayNum);
+                    newDateTimes.Add(new Tuple<DateTime, DateTime>(one, two));
+                }
+            }
+
+            
 
             if (inputError)
             {
@@ -559,7 +581,7 @@ namespace WindowsFormsApplication1
             }
             else
             {
-                Day newDay = new Day(d,dateTimes);
+                Day newDay = new Day(d,newDateTimes);
                 string times = "-> ";
                 foreach (Tuple<ComboBox, ComboBox> currentBox in timeBoxes)
                 {
