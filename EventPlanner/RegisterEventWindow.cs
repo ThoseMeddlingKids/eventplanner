@@ -178,7 +178,6 @@ namespace WindowsFormsApplication1
                 {
                     String person = "";
                     String taskDef = task.Text;
-                    Console.WriteLine("Adding task " + taskDef);
                     ListOfTasks.Add(new Tuple<String, String>(person, taskDef));
                 }
 
@@ -362,7 +361,8 @@ namespace WindowsFormsApplication1
         //Adds CueBoxes to the second flow layout panel dynamically.
         private void AddTaskBtn_Click(object sender, EventArgs e)
         {
-            TextBox NameOfTask = new TextBox();
+            CueTextBox NameOfTask = new CueTextBox();
+            NameOfTask.Cue = "Enter a new task";
             eventTasks.Add(NameOfTask);
             flowLayoutPanel2.Controls.Add(NameOfTask);
         }
@@ -489,25 +489,41 @@ namespace WindowsFormsApplication1
                 {
                     newDate = form.selectedDate;
 
-                    Label newDateLabel = new Label();
-                    //add stuff to new label
-                    newDateLabel.Text = newDate.ToShortDateString();
-                    newDateLabel.Size = new System.Drawing.Size(150, 24);
-                    newDateLabel.TextAlign = ContentAlignment.MiddleCenter;
-                    
-                    Button newDateButton = new Button();
-                    //add stuff to new button
-                    newDateButton.Text = "Set Times From Below";
-                    newDateButton.Size = new System.Drawing.Size(150, 24);
-                    newDateButton.Tag = newDate;
-                    newDateButton.Click += new EventHandler(this.setDayTimes);
+                    bool repeated = false;
+                    foreach (Control ctl in flowLayoutPanel3.Controls)
+                    {
+                        if (ctl.Text == newDate.ToShortDateString())
+                        {
+                            repeated = true;
+                        }
+                    }
 
-                    dateBox.Add(new Tuple<Label, Button>(newDateLabel, newDateButton));
+                    if (!repeated)
+                    {
+                        Label newDateLabel = new Label();
+                        //add stuff to new label
+                        newDateLabel.Text = newDate.ToShortDateString();
+                        newDateLabel.Size = new System.Drawing.Size(150, 24);
+                        newDateLabel.TextAlign = ContentAlignment.MiddleCenter;
 
-                    flowLayoutPanel3.Controls.Add(newDateButton);
-                    flowLayoutPanel3.Controls.Add(newDateLabel);
-                    flowLayoutPanel3.SetFlowBreak(newDateLabel, true);
+                        Button newDateButton = new Button();
+                        //add stuff to new button
+                        newDateButton.Text = "Set Times From Below";
+                        newDateButton.Size = new System.Drawing.Size(150, 24);
+                        newDateButton.Tag = newDate;
+                        newDateButton.Click += new EventHandler(this.setDayTimes);
 
+                        dateBox.Add(new Tuple<Label, Button>(newDateLabel, newDateButton));
+
+                        flowLayoutPanel3.Controls.Add(newDateButton);
+                        flowLayoutPanel3.Controls.Add(newDateLabel);
+                        flowLayoutPanel3.SetFlowBreak(newDateLabel, true);
+
+                    }
+                    else
+                    {
+                        MessageBox.Show("The date you selected is already in this event.");
+                    }
                 }
             }
         }
@@ -563,7 +579,7 @@ namespace WindowsFormsApplication1
                 dateTimes.Sort((x, y) => DateTime.Compare(x.Item1, y.Item1));
 
             }
-            
+
             if (dateTimes.Count != 0)
             {
                 DateTime test = dateTimes[0].Item1;
@@ -580,8 +596,32 @@ namespace WindowsFormsApplication1
                     newDateTimes.Add(new Tuple<DateTime, DateTime>(one, two));
                 }
             }
+            /*
+            // start at one, no need to compare index 0 with itself
+            for (int i = 1; i < dateTimes.Count; i++)
+            {
+                DateTime start = dateTimes[i].Item1;
+                DateTime end = dateTimes[i].Item2;
 
-            
+                int num = i;
+                for (int j = num; j >= 0; j--)
+                {
+                    DateTime startTest = dateTimes[j].Item1;
+                    DateTime endTest = dateTimes[j].Item2;
+
+                    if ( ((start > startTest) && (start < endTest)) ||
+                         ((endTest > start)   && (endTest < end))   ||
+                         ((end > startTest)   && (end < endTest))   ||
+                         ((startTest > start) && (startTest < end)) || 
+                         !timeWindowError)
+                    {
+                        errorText = String.Concat(errorText, "\nTwo of the selected time windows overlap.");
+                        inputError = true;
+                        timeWindowError = true;
+                    }
+
+                }
+            }*/
 
             if (inputError)
             {
