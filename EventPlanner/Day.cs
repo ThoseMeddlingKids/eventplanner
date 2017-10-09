@@ -9,31 +9,25 @@ namespace WindowsFormsApplication1
 {
     class Day
     {
+        /// <summary>
+        /// Public list of times for the day
+        /// </summary>
         public List<Tuple<DateTime, DateTime>> timeBoxForDay;
+
+        /// <summary>
+        /// Public date
+        /// </summary>
         public DateTime date;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="selectedDate">Date</param>
+        /// <param name="times">List of times for the day</param>
         public Day(DateTime selectedDate, List<Tuple<DateTime, DateTime>> times)
         {
             date = selectedDate;
             timeBoxForDay = times;
-            /*DateTime i1;
-            DateTime i2 = new DateTime(D);
-
-            //
-            // Find a way to change the date or we are all fucked
-            //
-
-
-            foreach (Tuple<DateTime,DateTime> timeSet in times)
-            {
-                i1 = timeSet.Item1;
-                i2 = timeSet.Item2;
-
-                i1.Date = date.Date;
-                i2.Date = date.Date;
-
-
-            }*/
         }
     }
 }

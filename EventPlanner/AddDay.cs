@@ -38,7 +38,10 @@ namespace WindowsFormsApplication1
         /// <param name="e">Winforms event arguments.</param>
         public void AddDayButton_Click(object sender, EventArgs e)
         {
+            // get the selected day
             this.selectedDate = mainCalendar.SelectionStart;
+
+            // check to make sure the day is not in the past
             if (selectedDate < DateTime.Today)
             {
                 MessageBox.Show("Select a current or future date to add events.");
@@ -50,21 +53,14 @@ namespace WindowsFormsApplication1
             }
         }
 
+        /// <summary>
+        /// Exit the window
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void cancelButton_Click(object sender, EventArgs e)
         {
             this.Close();
         }
     }
 }
-
-
-/*
- * TODO:
- * 
- * RegisterEventWindow line 25: use this to store and create new dates
- * work on way to get value from form and store it in label and such
- * assign label and button values
- * make button form for extra times
- * enable chosen first day to show up in days
- *  
- */

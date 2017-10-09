@@ -20,24 +20,38 @@ namespace WindowsFormsApplication1
 
     public partial class RegisterEventWindow : Form
     {
-
+        /// <summary>
+        /// List containing the days (and corresponding times) for the event
+        /// </summary>
         List<Day> Days = new List<Day>();
 
-        //user can add new time slots to an event 
-        //maintain a list of the boxes for entering these so we can reference them when they save
+        /// <summary>
+        /// list of timeboxes created
+        /// </summary>
         List<Tuple<ComboBox, ComboBox>> timeBoxes = new List<Tuple<ComboBox, ComboBox>>();
 
-        //users can add tasks to an event
+        /// <summary>
+        /// List of tasks
+        /// </summary>
         List<TextBox> eventTasks = new List<TextBox>();
 
+        /// <summary>
+        /// Dynamic list of added days and boxes
+        /// </summary>
         List<Tuple<Label, Button>> dateBox = new List<Tuple<Label, Button>>();
 
+        /// <summary>
+        /// List of half hour times (starts)
+        /// </summary>
         List<ComboBoxDateTime> halfHourDateTimes = new List<ComboBoxDateTime>();
+
+        /// <summary>
+        /// list of half hour times (ends)
+        /// </summary>
         List<ComboBoxDateTime> halfHourDateTimesForEnd = new List<ComboBoxDateTime>();
         private string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\eventSaveFile.json";
 
         private string userName;
-        //List<DateTime> ListOfDatesForEvent;
 
         /// <summary>
         /// Constructor for the RegisterEventWindow form.
@@ -82,21 +96,27 @@ namespace WindowsFormsApplication1
             DateTime midnight = selectedDate.AddDays(1);
             halfHourDateTimesForEnd.Add(new ComboBoxDateTime(midnight, use24Hour));
 
+            // add label for the initial day
             Label newDateLabel = new Label();
-            //add stuff to new label
+
+            // add stuff to new label
             newDateLabel.Text = selectedDate.ToShortDateString();
             newDateLabel.Size = new System.Drawing.Size(150, 24);
             newDateLabel.TextAlign = ContentAlignment.MiddleCenter;
 
+            // add set time button for initial day
             Button newDateButton = new Button();
-            //add stuff to new button
+
+            // add stuff to new button
             newDateButton.Text = "Set Times from Below";
             newDateButton.Size = new System.Drawing.Size(150, 24);
             newDateButton.Tag = selectedDate;
             newDateButton.Click += new EventHandler(this.setDayTimes);
 
+            // add to the list of the combos
             dateBox.Add(new Tuple<Label, Button>(newDateLabel, newDateButton));
 
+            // add them to the flowchart
             flowLayoutPanel3.Controls.Add(newDateButton);
             flowLayoutPanel3.Controls.Add(newDateLabel);
             flowLayoutPanel3.SetFlowBreak(newDateLabel, true);
@@ -443,8 +463,10 @@ namespace WindowsFormsApplication1
                 var result = form.ShowDialog();
                 if (result == DialogResult.OK)
                 {
+                    // gets value from form
                     newDate = form.selectedDate;
 
+                    // check if the date is repeated
                     bool repeated = false;
                     foreach (Control ctl in flowLayoutPanel3.Controls)
                     {
@@ -454,6 +476,7 @@ namespace WindowsFormsApplication1
                         }
                     }
 
+                    // if not repeated, add corresponding label and button
                     if (!repeated)
                     {
                         Label newDateLabel = new Label();
@@ -489,6 +512,7 @@ namespace WindowsFormsApplication1
         /// </summary>
         private void setDayTimes(object sender, EventArgs e)
         {
+            // get date of the day of the button
             DateTime d = (DateTime)(sender as Button).Tag;
 
             bool comboBoxError = false;
@@ -498,6 +522,7 @@ namespace WindowsFormsApplication1
             List<Tuple<DateTime, DateTime>> dateTimes = new List<Tuple<DateTime, DateTime>>();
             List<Tuple<DateTime, DateTime>> newDateTimes = new List<Tuple<DateTime, DateTime>>();
 
+            // from each drop down box, load the times into a list
             foreach (Tuple<ComboBox, ComboBox> currentBoxes in timeBoxes)
             {
                 //ensure the time slots are valid
@@ -505,27 +530,26 @@ namespace WindowsFormsApplication1
                 DateTime startTime = (currentBoxes.Item1.SelectedValue as ComboBoxDateTime).inner;
                 DateTime endTime = (currentBoxes.Item2.SelectedValue as ComboBoxDateTime).inner;
 
-                DateTime previousEndTime = DateTime.MinValue;
-                DateTime previousStartTime = DateTime.MinValue;
-
+                // check if and slots are not possible
                 if (endTime <= startTime && !endTime.ToShortTimeString().Equals("12:00 AM") && !comboBoxError)
                 {
                     errorText = String.Concat(errorText, "At least one of the time slots is impossible.");
                     comboBoxError = true;
                     inputError = true;
                 }
+
+                // check an odd endtime
                 if (endTime.ToShortTimeString().Equals("12:00 AM"))
                 {
                     endTime = endTime.AddDays(1);
                 }
-                previousStartTime = startTime;
-                previousEndTime = endTime;
 
                 dateTimes.Add(new Tuple<DateTime, DateTime>(startTime, endTime));
                 dateTimes.Sort((x, y) => DateTime.Compare(x.Item1, y.Item1));
 
             }
 
+            // change the times to the correct 
             if (dateTimes.Count != 0)
             {
                 DateTime test = dateTimes[0].Item1;
@@ -543,20 +567,24 @@ namespace WindowsFormsApplication1
                 }
             }
             
-            // start at one, no need to compare index 0 with itself
-            for (int i = 1; i < dateTimes.Count; i++)
+            // check for overlapping times 
+            for (int i = 0; i < dateTimes.Count; i++)
             {
                 DateTime start = dateTimes[i].Item1;
                 DateTime end = dateTimes[i].Item2;
+
+                // check for time in the past
+                if (start.Date == DateTime.Now.Date && start.TimeOfDay < DateTime.Now.TimeOfDay)
+                {
+                    inputError = true;
+                    errorText = String.Concat(errorText, "\nOne of the times is set in the past");
+                }
 
                 int num = i;
                 for (int j = num - 1; j >= 0; j--)
                 {
                     DateTime startTest = dateTimes[j].Item1;
                     DateTime endTest = dateTimes[j].Item2;
-
-                    MessageBox.Show(start.TimeOfDay.ToString() + " > " + startTest.TimeOfDay.ToString());
-                    MessageBox.Show((start.TimeOfDay > startTest.TimeOfDay).ToString());
 
                     if ( ((start.TimeOfDay >= startTest.TimeOfDay) && (start.TimeOfDay < endTest.TimeOfDay)) ||
                          ((endTest.TimeOfDay > start.TimeOfDay)   && (endTest.TimeOfDay <= end.TimeOfDay))   ||
@@ -570,6 +598,7 @@ namespace WindowsFormsApplication1
                 }
             }
 
+            // show error, or create a new day and add times
             if (inputError)
             {
                 MessageBox.Show(errorText);
@@ -589,6 +618,9 @@ namespace WindowsFormsApplication1
                 MessageBox.Show("For date: " + d.ToShortDateString() + ", the following times were set " + times);
 
                 bool check = true;
+
+                // check if the date is already in the list of days
+                // if it is, edit the times
                 foreach (Day day in Days)
                 {
                     if (day.date == d)
@@ -599,6 +631,8 @@ namespace WindowsFormsApplication1
                         
                     }
                 }
+
+                // if the date is not in the list, add a new day
                 if (check)
                 {
                     Days.Add(newDay);
@@ -607,6 +641,11 @@ namespace WindowsFormsApplication1
             }
         }
 
+        /// <summary>
+        /// remove previous day
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void removeDay_Click(object sender, EventArgs e)
         {
             if (dateBox.Count >= 1)
@@ -617,6 +656,11 @@ namespace WindowsFormsApplication1
             }
         }
 
+        /// <summary>
+        /// checks what times are set 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void checkTime_Click(object sender, EventArgs e)
         {
             string text = "Current Times/Dates\n";
