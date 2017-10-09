@@ -63,6 +63,7 @@ namespace WindowsFormsApplication1
             DateTime start, end;
             Boolean continuous = false;
             if (ev.attendees != null) {
+                //For every attendee affiliated with a given event, update the person's attendance grid
                 foreach (Tuple<String, List<DateTime>> tuple in ev.attendees)
                 {
                     DateTime[] times = tuple.Item2.ToArray();
@@ -157,10 +158,12 @@ namespace WindowsFormsApplication1
         /// </summary>
         private void eventComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
+            //clear control panels for a refreshed view
             flowPanel.Controls.Clear();
             taskPanel.Controls.Clear();
             Console.Write(eventComboBox.DataSource);
 
+            //declare variables affiliated with knowing which event is being accessed
             ComboBox comBox = (ComboBox)sender;
             Event selectedEvent = (Event)comBox.SelectedItem;
 
@@ -179,6 +182,8 @@ namespace WindowsFormsApplication1
             checkboxList.Clear();
 
             //gives me list of date time tuples
+            //for every tuple, create a timespan for the user.
+            //Add availability checkboxes for times that are affiliated with the user's profile.
             for (int i = 0; i < selectedEvent.dateTimes.Count; i++)
             {
                 TimeSpan timeDifference = selectedEvent.dateTimes[i].Item2 - selectedEvent.dateTimes[i].Item1;
@@ -220,9 +225,16 @@ namespace WindowsFormsApplication1
                 //Users will be able to input that they are completing the task when they are added to the taskPanel
                 for (int k = 0; k < selectedEvent.ThisEventTaskList.Count; k++)
                 {
+                    //"task" refers to the name of the given task
                     String task = selectedEvent.ThisEventTaskList[k].Item2;
+                    //"name" refers to the user who has signer up for that given task
                     String name = selectedEvent.ThisEventTaskList[k].Item1;
+
+                    //Error checking, not essential to program but nice to have.
                     Console.WriteLine("This task currently assigned to: "+ name);
+                    //if the name value is unassigned, add a new chekbox to the task control panel
+                    //otherwise, do nothing.
+                    //this ensures that tasks can only be signed up for by a single attendee
                     if (name == "")
                     {
                         CheckBox taskBox = AddTaskBox(task);
@@ -390,6 +402,8 @@ namespace WindowsFormsApplication1
                     }
                 }
 
+                //for each task in the tasklist, check to see if the checkbox has been selected.
+                //if it has, affiliate the task with the current user and set the task to the user in the event.
                 for (int j = 0; j < taskList.Count; j++)
                 {
                     if (taskList[j].Checked == true)
@@ -398,6 +412,8 @@ namespace WindowsFormsApplication1
                         realEvent.setTask(userName, j);
                     }
                 }
+
+                //write everything to the JSON file that holds all events
                 WriteToJSON(realEvent);
             }
             this.Close();
