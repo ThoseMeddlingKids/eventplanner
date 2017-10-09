@@ -94,6 +94,7 @@ namespace WindowsFormsApplication1
         /// <param name="loc">The event's location</param>
         /// <param name="attending">Number attending the event</param>
         /// <param name="cap">The event's capacity.</param>
+        /// <param name="ThisEventTaskList"></param>
         public Event(string eventName, string hostName, string description, List<Tuple<DateTime, DateTime>> dateTimes, string loc, int attending, int cap, List<Tuple<String, String>> ThisEventTaskList)
         {
             nameOfEvent = eventName;
@@ -166,11 +167,6 @@ namespace WindowsFormsApplication1
         }
         #endregion
         
-        /// <summary>
-        /// Setter for updating a task within the event task list with a username
-        /// </summary>
-        /// <param name="name"></param> Name of user 
-        /// <param name="index"></param> index of task to be updated
         public void setTask(string name, int index)
         {
             //First, Check to see if the task is already being completed by someone else
@@ -187,9 +183,6 @@ namespace WindowsFormsApplication1
             }
         }
         
-        /*
-        NOTE:Maybe we'll eventually show everyone who is going to said event?
-        */
         /// <summary>
         /// Add an attendee to the event
         /// </summary>

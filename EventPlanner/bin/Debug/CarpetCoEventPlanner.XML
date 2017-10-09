@@ -259,6 +259,7 @@
             <param name="loc">The event's location</param>
             <param name="attending">Number attending the event</param>
             <param name="cap">The event's capacity.</param>
+            <param name="ThisEventTaskList"></param>
         </member>
         <member name="M:WindowsFormsApplication1.Event.setName(System.String)">
             <summary>
@@ -295,13 +296,6 @@
             Set the number of attendees
             </summary>
             <param name="att">New number.</param>
-        </member>
-        <member name="M:WindowsFormsApplication1.Event.setTask(System.String,System.Int32)">
-            <summary>
-            Setter for updating a task within the event task list with a username
-            </summary>
-            <param name="name"></param> Name of user 
-            <param name="index"></param> index of task to be updated
         </member>
         <member name="M:WindowsFormsApplication1.Event.addAttendee(System.String,System.Collections.Generic.List{System.DateTime})">
             <summary>
@@ -393,6 +387,7 @@
             </summary>
             <param name="capInt">The user's chosen capacity value, converted to int.</param>
             <param name="dateTimes">The user's chosen DateTime time slots</param>
+            <param name="MasterTaskList"></param>
         </member>
         <member name="M:WindowsFormsApplication1.RegisterEventWindow.addSlotButton_Click(System.Object,System.EventArgs)">
             <summary>
@@ -632,12 +627,14 @@
             A method to handle the user login process.
             </summary>
             <param name="checker"></param>
+            <param name="login"></param>
         </member>
         <member name="M:WindowsFormsApplication1.User.createAccount(WindowsFormsApplication1.User,WindowsFormsApplication1.LoginPopup)">
             <summary>
             Method to handle the creation of new user accounts.
             </summary>
             <param name="checker"></param>
+            <param name="login"></param>
         </member>
         <member name="M:WindowsFormsApplication1.User.closeLogin(WindowsFormsApplication1.LoginPopup)">
             <summary>
