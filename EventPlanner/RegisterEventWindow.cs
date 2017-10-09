@@ -30,7 +30,6 @@ namespace WindowsFormsApplication1
         //users can add tasks to an event
         List<TextBox> eventTasks = new List<TextBox>();
 
-
         List<Tuple<Label, Button>> dateBox = new List<Tuple<Label, Button>>();
 
         List<ComboBoxDateTime> halfHourDateTimes = new List<ComboBoxDateTime>();
@@ -38,7 +37,7 @@ namespace WindowsFormsApplication1
         private string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\eventSaveFile.json";
 
         private string userName;
-        List<DateTime> ListOfDatesForEvent;
+        //List<DateTime> ListOfDatesForEvent;
 
         /// <summary>
         /// Constructor for the RegisterEventWindow form.
@@ -51,8 +50,6 @@ namespace WindowsFormsApplication1
             InitializeComponent();
             userName = username;
             dateLabel.Text = "Adding event";
-
-            //int local_hrs; 
 
             ComboBoxDateTime currentTime = new ComboBoxDateTime(selectedDate, use24Hour);
 
@@ -104,17 +101,6 @@ namespace WindowsFormsApplication1
             flowLayoutPanel3.Controls.Add(newDateLabel);
             flowLayoutPanel3.SetFlowBreak(newDateLabel, true);
 
-
-            //use the list of times as the list of options for our time boxes
-            //startTimeBox.DataSource = halfHourDateTimes;
-            //startTimeBox.DisplayMember = "shortTimeString";
-
-            //endTimeBox.BindingContext = new BindingContext();
-            //endTimeBox.DataSource = halfHourDateTimesForEnd;
-            //endTimeBox.DisplayMember = "shortTimeStringForEndBoxes";
-
-            //put the time boxes in a tuple to associate them and put it in a list to keep track of it
-            //timeBoxes.Add(new Tuple<ComboBox, ComboBox>(startTimeBox, endTimeBox));
         }
 
         /// <summary>
@@ -188,37 +174,7 @@ namespace WindowsFormsApplication1
                     //if end time is 12:00 AM that is equivalent to 11:59:59 pm, not a repeat or smaller number.
                     DateTime startTime = (currentBoxes.Item1.SelectedValue as ComboBoxDateTime).inner;
                     DateTime endTime = (currentBoxes.Item2.SelectedValue as ComboBoxDateTime).inner;
-                    /*foreach (Tuple<ComboBox, ComboBox> currentBoxes in timeBoxes)
-                    {
-                        //ensure the time slots are valid
-                        //if end time is 12:00 AM that is equivalent to 11:59:59 pm, not a repeat or smaller number.
-                        DateTime startTime = (currentBoxes.Item1.SelectedValue as ComboBoxDateTime).inner;
-                        DateTime endTime = (currentBoxes.Item2.SelectedValue as ComboBoxDateTime).inner;
-
-                        if (endTime <= startTime && !endTime.ToShortTimeString().Equals("12:00 AM") && !comboBoxError)
-                        {
-                            errorText = String.Concat(errorText, "At least one of the time slots is impossible.");
-                            comboBoxError = true;
-                            inputError = true;
-                        }
-                        if (endTime.ToShortTimeString().Equals("12:00 AM"))
-                        {
-                            endTime = endTime.AddDays(1);
-                        }
-                        if (((startTime >= previousStartTime) && (startTime <= previousEndTime)||
-                            ((endTime >= previousStartTime) && (endTime <= previousEndTime))) && (startTime != previousEndTime) && !timeWindowError)
-                        {
-                                errorText = String.Concat(errorText, "\nTwo of the selected time windows overlap.");
-                                inputError = true;
-                                timeWindowError = true;
-                        }
-                        previousStartTime = startTime;
-                        previousEndTime = endTime;
-
-                        dateTimes.Add(new Tuple<DateTime, DateTime>(startTime, endTime));
-                        dateTimes.Sort((x, y) => DateTime.Compare(x.Item1, y.Item1));
-
-                    }*/
+                    
                     if (nameTextBox.Text.Length == 0)
                     {
                         errorText = String.Concat(errorText, "\n Event name cannot be empty.");
@@ -534,11 +490,8 @@ namespace WindowsFormsApplication1
         private void setDayTimes(object sender, EventArgs e)
         {
             DateTime d = (DateTime)(sender as Button).Tag;
-            //Day day = new Day(selectedDate);
-            //MessageBox.Show(d.Date.ToShortDateString());
 
             bool comboBoxError = false;
-            bool timeWindowError = false;
             bool inputError = false;
             string errorText = "";
 
@@ -565,13 +518,6 @@ namespace WindowsFormsApplication1
                 {
                     endTime = endTime.AddDays(1);
                 }
-                if (((startTime >= previousStartTime) && (startTime <= previousEndTime) ||
-                    ((endTime >= previousStartTime) && (endTime <= previousEndTime))) && (startTime != previousEndTime) && !timeWindowError)
-                {
-                    errorText = String.Concat(errorText, "\nTwo of the selected time windows overlap.");
-                    inputError = true;
-                    timeWindowError = true;
-                }
                 previousStartTime = startTime;
                 previousEndTime = endTime;
 
@@ -596,7 +542,7 @@ namespace WindowsFormsApplication1
                     newDateTimes.Add(new Tuple<DateTime, DateTime>(one, two));
                 }
             }
-            /*
+            
             // start at one, no need to compare index 0 with itself
             for (int i = 1; i < dateTimes.Count; i++)
             {
@@ -604,24 +550,25 @@ namespace WindowsFormsApplication1
                 DateTime end = dateTimes[i].Item2;
 
                 int num = i;
-                for (int j = num; j >= 0; j--)
+                for (int j = num - 1; j >= 0; j--)
                 {
                     DateTime startTest = dateTimes[j].Item1;
                     DateTime endTest = dateTimes[j].Item2;
 
-                    if ( ((start > startTest) && (start < endTest)) ||
-                         ((endTest > start)   && (endTest < end))   ||
-                         ((end > startTest)   && (end < endTest))   ||
-                         ((startTest > start) && (startTest < end)) || 
-                         !timeWindowError)
+                    MessageBox.Show(start.TimeOfDay.ToString() + " > " + startTest.TimeOfDay.ToString());
+                    MessageBox.Show((start.TimeOfDay > startTest.TimeOfDay).ToString());
+
+                    if ( ((start.TimeOfDay >= startTest.TimeOfDay) && (start.TimeOfDay < endTest.TimeOfDay)) ||
+                         ((endTest.TimeOfDay > start.TimeOfDay)   && (endTest.TimeOfDay <= end.TimeOfDay))   ||
+                         ((end.TimeOfDay > startTest.TimeOfDay)   && (end.TimeOfDay <= endTest.TimeOfDay))   ||
+                         ((startTest.TimeOfDay >= start.TimeOfDay) && (startTest.TimeOfDay < end.TimeOfDay)) )
                     {
                         errorText = String.Concat(errorText, "\nTwo of the selected time windows overlap.");
                         inputError = true;
-                        timeWindowError = true;
                     }
 
                 }
-            }*/
+            }
 
             if (inputError)
             {
