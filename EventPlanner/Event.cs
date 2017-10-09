@@ -179,6 +179,7 @@ namespace WindowsFormsApplication1
                 //Create a new updated tuple with the name of the person who is completing the task.
                 Tuple<String, String> updatedTask = new Tuple<String, String>(name, temptask);
                 //Insert the task back in it's necessary position in the list.
+                Console.WriteLine("Assigning " + temptask + " to " + name);
                 ThisEventTaskList.Insert(index, updatedTask);
             }
         }

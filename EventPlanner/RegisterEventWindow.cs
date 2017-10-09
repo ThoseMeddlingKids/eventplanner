@@ -167,8 +167,9 @@ namespace WindowsFormsApplication1
                 //Adds Each Task Created by the event host to the master list of tasks affiliated with the event
                 foreach (CueTextBox task in eventTasks)
                 {
+                    Console.WriteLine("Adding Task");
                     String person = "";
-                    String taskDef = task.Text;
+                    String taskDef = "Some Stupid Task";
                     ListOfTasks.Add(new Tuple<String, String>(person, taskDef));
                 }
 

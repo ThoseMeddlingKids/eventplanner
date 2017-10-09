@@ -106,9 +106,9 @@ namespace WindowsFormsApplication1
             TimeSpan duration;
             DateTime start, end;
             Boolean continuous = false;
-            
-            
 
+
+            flowLayoutPanel1.Controls.Clear();
             attendeesBox.Clear();
             if (ev != null)
             {

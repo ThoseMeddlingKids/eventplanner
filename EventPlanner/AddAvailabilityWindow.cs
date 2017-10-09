@@ -158,6 +158,7 @@ namespace WindowsFormsApplication1
         private void eventComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             flowPanel.Controls.Clear();
+            taskPanel.Controls.Clear();
             Console.Write(eventComboBox.DataSource);
 
             ComboBox comBox = (ComboBox)sender;
@@ -220,9 +221,10 @@ namespace WindowsFormsApplication1
                 for (int k = 0; i < selectedEvent.ThisEventTaskList.Count; i++)
                 {
                     String task = selectedEvent.ThisEventTaskList[k].Item2;
+                    CheckBox taskBox = AddTaskBox(task);
                     
-                    CheckBox taskBox = AddTaskBox(task); 
                     taskPanel.Controls.Add(taskBox);
+                    
                 }
             }
         }
@@ -382,6 +384,14 @@ namespace WindowsFormsApplication1
                     if (checkboxList[i].Checked)
                     {
                         availableTimes.Add(checkboxList[i].associatedDateTime);
+                    }
+                }
+
+                for (int j = 0; j < taskList.Count; j++)
+                {
+                    if (taskList[j].Checked)
+                    {
+                        realEvent.setTask(userName, j);
                     }
                 }
                 WriteToJSON(realEvent);
