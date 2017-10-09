@@ -13,9 +13,11 @@ using Newtonsoft.Json;
 
 namespace WindowsFormsApplication1
 {
+    
     /// <summary>
     /// Form allowing user to add a new event.
     /// </summary>
+
     public partial class RegisterEventWindow : Form
     {
 
@@ -26,7 +28,9 @@ namespace WindowsFormsApplication1
         List<Tuple<ComboBox, ComboBox>> timeBoxes = new List<Tuple<ComboBox, ComboBox>>();
 
         //users can add tasks to an event
-        List<CueTextBox> eventTasks = new List<CueTextBox>();
+        List<TextBox> eventTasks = new List<TextBox>();
+
+
         List<Tuple<Label, Button>> dateBox = new List<Tuple<Label, Button>>();
 
         List<ComboBoxDateTime> halfHourDateTimes = new List<ComboBoxDateTime>();
@@ -143,6 +147,11 @@ namespace WindowsFormsApplication1
         /// <param name="e">Winforms event arguments.</param>
         private void saveButton_Click(object sender, EventArgs e)
         {
+            Console.WriteLine(nameTextBox.Text);
+            foreach (TextBox box in eventTasks)
+            {
+                Console.WriteLine(box.Text);
+            }
             foreach (Day day in Days)
             {
                 String errorText = "";
@@ -165,11 +174,11 @@ namespace WindowsFormsApplication1
                 int.TryParse(capacityText.Text, out capInt);
 
                 //Adds Each Task Created by the event host to the master list of tasks affiliated with the event
-                foreach (CueTextBox task in eventTasks)
+                foreach (TextBox task in eventTasks)
                 {
-                    Console.WriteLine("Adding Task");
                     String person = "";
-                    String taskDef = task.Text ;
+                    String taskDef = task.Text;
+                    Console.WriteLine("Adding task " + taskDef);
                     ListOfTasks.Add(new Tuple<String, String>(person, taskDef));
                 }
 
@@ -353,10 +362,8 @@ namespace WindowsFormsApplication1
         //Adds CueBoxes to the second flow layout panel dynamically.
         private void AddTaskBtn_Click(object sender, EventArgs e)
         {
-            CueTextBox NameOfTask = new CueTextBox();
-            NameOfTask.Cue = "Enter a new task";
-            NameOfTask.Text = "Some Stupid Task";
-            eventTasks.Add(new CueTextBox());
+            TextBox NameOfTask = new TextBox();
+            eventTasks.Add(NameOfTask);
             flowLayoutPanel2.Controls.Add(NameOfTask);
         }
 

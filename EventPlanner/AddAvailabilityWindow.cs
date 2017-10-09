@@ -218,13 +218,16 @@ namespace WindowsFormsApplication1
                 //For Each Task in the event's Task List
                 //Grab the name of the task and create a textbox affiliated with that task name
                 //Users will be able to input that they are completing the task when they are added to the taskPanel
-                for (int k = 0; i < selectedEvent.ThisEventTaskList.Count; i++)
+                for (int k = 0; k < selectedEvent.ThisEventTaskList.Count; k++)
                 {
                     String task = selectedEvent.ThisEventTaskList[k].Item2;
                     String name = selectedEvent.ThisEventTaskList[k].Item1;
-                    Console.WriteLine("This task currently holds value of: "+ name);
-                    CheckBox taskBox = AddTaskBox(task);
-                    taskPanel.Controls.Add(taskBox);
+                    Console.WriteLine("This task currently assigned to: "+ name);
+                    if (name == "")
+                    {
+                        CheckBox taskBox = AddTaskBox(task);
+                        taskPanel.Controls.Add(taskBox);
+                    }
                     
                 }
             }
@@ -242,7 +245,6 @@ namespace WindowsFormsApplication1
         {
             CheckBox cB = new CheckBox();
             cB.Text = task;
-
             taskList.Add(cB);
             return (cB);
         }
@@ -392,6 +394,7 @@ namespace WindowsFormsApplication1
                 {
                     if (taskList[j].Checked == true)
                     {
+                        Console.WriteLine("Affiliating " + userName + " with task" + taskList[j].Text);
                         realEvent.setTask(userName, j);
                     }
                 }
