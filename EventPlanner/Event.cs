@@ -104,8 +104,6 @@ namespace WindowsFormsApplication1
             numberOfAttendees = attending;
             this.capacity = cap;
 
-            /// why is this here
-            //Console.WriteLine("WTFFFFF " + this.capacity);
             this.ThisEventTaskList = ThisEventTaskList;
 
             this.attendees = new List<Tuple<string, List<DateTime>>>();

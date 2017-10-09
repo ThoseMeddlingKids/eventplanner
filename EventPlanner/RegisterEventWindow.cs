@@ -19,7 +19,8 @@ namespace WindowsFormsApplication1
     public partial class RegisterEventWindow : Form
     {
 
-        IDictionary<string,Day> Days = new Dictionary<string,Day>();
+        List<Day> Days = new List<Day>();
+
         //user can add new time slots to an event 
         //maintain a list of the boxes for entering these so we can reference them when they save
         List<Tuple<ComboBox, ComboBox>> timeBoxes = new List<Tuple<ComboBox, ComboBox>>();
@@ -80,14 +81,14 @@ namespace WindowsFormsApplication1
             Label newDateLabel = new Label();
             //add stuff to new label
             newDateLabel.Text = selectedDate.ToShortDateString();
-            newDateLabel.Size = new System.Drawing.Size(180, 24);
+            newDateLabel.Size = new System.Drawing.Size(150, 24);
             newDateLabel.TextAlign = ContentAlignment.MiddleCenter;
 
             Button newDateButton = new Button();
             //add stuff to new button
             newDateButton.Text = "Set Times from Below";
-            newDateButton.Size = new System.Drawing.Size(180, 24);
-            newDateButton.Tag = selectedDate.ToShortDateString();
+            newDateButton.Size = new System.Drawing.Size(150, 24);
+            newDateButton.Tag = selectedDate;
             newDateButton.Click += new EventHandler(this.setDayTimes);
 
             dateBox.Add(new Tuple<Label, Button>(newDateLabel, newDateButton));
@@ -139,109 +140,115 @@ namespace WindowsFormsApplication1
         /// <param name="e">Winforms event arguments.</param>
         private void saveButton_Click(object sender, EventArgs e)
         {
-            String errorText = "";
-            Boolean inputError = false;
-            Boolean comboBoxError = false;
-
-            DateTime previousEndTime = DateTime.MinValue;
-            DateTime previousStartTime = DateTime.MinValue;
-
-            int capInt;
-            bool timeWindowError = false;
-
-            List<Tuple<DateTime, DateTime>> dateTimes = new List<Tuple<DateTime, DateTime>>();
-
-            //Master List of tasks affiliated with each event
-            List<Tuple<String, String>> ListOfTasks = new List<Tuple<String, String>>();
-
-            int.TryParse(capacityText.Text, out capInt);
-
-            //Adds Each Task Created by the event host to the master list of tasks affiliated with the event
-            foreach (CueTextBox task in eventTasks)
+            foreach (Day day in Days)
             {
-                String person = "";
-                String taskDef = task.Text;
-                ListOfTasks.Add(new Tuple<String, String>(person, taskDef));
-            }
+                String errorText = "";
+                Boolean inputError = false;
+                Boolean comboBoxError = false;
 
+                DateTime previousEndTime = DateTime.MinValue;
+                DateTime previousStartTime = DateTime.MinValue;
 
-            foreach (Tuple<ComboBox, ComboBox> currentBoxes in timeBoxes)
-            {
-                //ensure the time slots are valid
-                //if end time is 12:00 AM that is equivalent to 11:59:59 pm, not a repeat or smaller number.
-                DateTime startTime = (currentBoxes.Item1.SelectedValue as ComboBoxDateTime).inner;
-                DateTime endTime = (currentBoxes.Item2.SelectedValue as ComboBoxDateTime).inner;
+                nameTextBox.Text += "->" + day.date;
 
-                if (endTime <= startTime && !endTime.ToShortTimeString().Equals("12:00 AM") && !comboBoxError)
+                int capInt;
+                bool timeWindowError = false;
+
+                List<Tuple<DateTime, DateTime>> dateTimes = new List<Tuple<DateTime, DateTime>>();
+
+                //Master List of tasks affiliated with each event
+                List<Tuple<String, String>> ListOfTasks = new List<Tuple<String, String>>();
+
+                int.TryParse(capacityText.Text, out capInt);
+
+                //Adds Each Task Created by the event host to the master list of tasks affiliated with the event
+                foreach (CueTextBox task in eventTasks)
                 {
-                    errorText = String.Concat(errorText, "At least one of the time slots is impossible.");
-                    comboBoxError = true;
+                    String person = "";
+                    String taskDef = task.Text;
+                    ListOfTasks.Add(new Tuple<String, String>(person, taskDef));
+                }
+
+
+                /*foreach (Tuple<ComboBox, ComboBox> currentBoxes in timeBoxes)
+                {
+                    //ensure the time slots are valid
+                    //if end time is 12:00 AM that is equivalent to 11:59:59 pm, not a repeat or smaller number.
+                    DateTime startTime = (currentBoxes.Item1.SelectedValue as ComboBoxDateTime).inner;
+                    DateTime endTime = (currentBoxes.Item2.SelectedValue as ComboBoxDateTime).inner;
+
+                    if (endTime <= startTime && !endTime.ToShortTimeString().Equals("12:00 AM") && !comboBoxError)
+                    {
+                        errorText = String.Concat(errorText, "At least one of the time slots is impossible.");
+                        comboBoxError = true;
+                        inputError = true;
+                    }
+                    if (endTime.ToShortTimeString().Equals("12:00 AM"))
+                    {
+                        endTime = endTime.AddDays(1);
+                    }
+                    if (((startTime >= previousStartTime) && (startTime <= previousEndTime)||
+                        ((endTime >= previousStartTime) && (endTime <= previousEndTime))) && (startTime != previousEndTime) && !timeWindowError)
+                    {
+                            errorText = String.Concat(errorText, "\nTwo of the selected time windows overlap.");
+                            inputError = true;
+                            timeWindowError = true;
+                    }
+                    previousStartTime = startTime;
+                    previousEndTime = endTime;
+
+                    dateTimes.Add(new Tuple<DateTime, DateTime>(startTime, endTime));
+                    dateTimes.Sort((x, y) => DateTime.Compare(x.Item1, y.Item1));
+
+                }*/
+                if (nameTextBox.Text.Length == 0)
+                {
+                    errorText = String.Concat(errorText, "\n Event name cannot be empty.");
                     inputError = true;
                 }
-                if (endTime.ToShortTimeString().Equals("12:00 AM"))
+                if (nameTextBox.Text.Length > 36)
                 {
-                    endTime = endTime.AddDays(1);
+                    errorText = String.Concat(errorText, "\nEvent name is too long.");
+                    inputError = true;
                 }
-                if (((startTime >= previousStartTime) && (startTime <= previousEndTime)||
-                    ((endTime >= previousStartTime) && (endTime <= previousEndTime))) && (startTime != previousEndTime) && !timeWindowError)
+                if (File.Exists(path))
                 {
-                        errorText = String.Concat(errorText, "\nTwo of the selected time windows overlap.");
-                        inputError = true;
-                        timeWindowError = true;
-                }
-                previousStartTime = startTime;
-                previousEndTime = endTime;
-
-                dateTimes.Add(new Tuple<DateTime, DateTime>(startTime, endTime));
-                dateTimes.Sort((x, y) => DateTime.Compare(x.Item1, y.Item1));
-
-            }
-            if (nameTextBox.Text.Length == 0)
-            {
-                errorText = String.Concat(errorText, "\n Event name cannot be empty.");
-                inputError = true;
-            }
-            if (nameTextBox.Text.Length > 36)
-            {
-                errorText = String.Concat(errorText, "\nEvent name is too long.");
-                inputError = true;
-            }
-            if (File.Exists(path))
-            {
-                List<Event> evts = JsonConvert.DeserializeObject<List<Event>>(File.ReadAllText(path));
-                foreach (Event evt in evts)
-                {
-                    if (evt.nameOfEvent == nameTextBox.Text)
-                    { 
-                        inputError = true;
-                        errorText = String.Concat(errorText, "\nEvent name already exists.");
+                    List<Event> evts = JsonConvert.DeserializeObject<List<Event>>(File.ReadAllText(path));
+                    foreach (Event evt in evts)
+                    {
+                        if (evt.nameOfEvent == nameTextBox.Text)
+                        {
+                            inputError = true;
+                            errorText = String.Concat(errorText, "\nEvent name already exists.");
+                        }
                     }
+                }
+
+                if (capInt == 0)
+                {
+                    errorText = String.Concat(errorText, "\nCapacity must be a nonzero number.");
+                    inputError = true;
+                }
+                if (locationText.Text.Length == 0)
+                {
+                    errorText = String.Concat(errorText, "\n Event Location cannot be empty.");
+                    inputError = true;
+                }
+                if (briefMessageText.Text.Length == 0)
+                {
+                    errorText = String.Concat(errorText, "\n Event Description cannot be empty.");
+                    inputError = true;
+                }
+                if (inputError)
+                {
+                    MessageBox.Show(errorText);
+                }
+                else
+                {
+                    buildEvent(capInt, day.timeBoxForDay, ListOfTasks);
                 }
             }
             
-            if (capInt == 0)
-            {
-                errorText = String.Concat(errorText, "\nCapacity must be a nonzero number.");
-                inputError = true;
-            }
-            if (locationText.Text.Length == 0)
-            {
-                errorText = String.Concat(errorText, "\n Event Location cannot be empty.");
-                inputError = true;
-            }
-            if (briefMessageText.Text.Length == 0)
-            {
-                errorText = String.Concat(errorText, "\n Event Description cannot be empty.");
-                inputError = true;
-            }
-            if (inputError)
-            {
-                MessageBox.Show(errorText);
-            }
-            else
-            {
-                buildEvent(capInt, dateTimes, ListOfTasks);
-            }
         }
 
         /// <summary>
@@ -466,14 +473,14 @@ namespace WindowsFormsApplication1
                     Label newDateLabel = new Label();
                     //add stuff to new label
                     newDateLabel.Text = newDate.ToShortDateString();
-                    newDateLabel.Size = new System.Drawing.Size(180, 24);
+                    newDateLabel.Size = new System.Drawing.Size(150, 24);
                     newDateLabel.TextAlign = ContentAlignment.MiddleCenter;
-
+                    
                     Button newDateButton = new Button();
                     //add stuff to new button
                     newDateButton.Text = "Set Times From Below";
-                    newDateButton.Size = new System.Drawing.Size(180, 24);
-                    newDateButton.Tag = newDate.ToShortDateString();
+                    newDateButton.Size = new System.Drawing.Size(150, 24);
+                    newDateButton.Tag = newDate;
                     newDateButton.Click += new EventHandler(this.setDayTimes);
 
                     dateBox.Add(new Tuple<Label, Button>(newDateLabel, newDateButton));
@@ -491,8 +498,7 @@ namespace WindowsFormsApplication1
         /// </summary>
         private void setDayTimes(object sender, EventArgs e)
         {
-            Console.WriteLine("working");
-            string d = (string)(sender as Button).Tag;
+            DateTime d = (DateTime)(sender as Button).Tag;
             //Day day = new Day(selectedDate);
 
             bool comboBoxError = false;
@@ -543,7 +549,7 @@ namespace WindowsFormsApplication1
             }
             else
             {
-                Day newDay = new Day(d,timeBoxes);
+                Day newDay = new Day(d,dateTimes);
                 string times = "-> ";
                 foreach (Tuple<ComboBox, ComboBox> currentBox in timeBoxes)
                 {
@@ -553,16 +559,24 @@ namespace WindowsFormsApplication1
                     times += startTime.ToShortTimeString() + "-" + endTime.ToShortTimeString() + "; ";
                 }
 
-                MessageBox.Show("For date: " + d + ", the following times were set " + times);
+                MessageBox.Show("For date: " + d.ToShortDateString() + ", the following times were set " + times);
 
-                if (Days.ContainsKey(d))
+                bool check = true;
+                foreach (Day day in Days)
                 {
-                    Days[d] = newDay;
+                    if (day.date == d)
+                    {
+                        day.timeBoxForDay = newDay.timeBoxForDay;
+                        check = false;
+                        break;
+                        
+                    }
                 }
-                else
+                if (check)
                 {
-                    Days.Add(d, newDay);
+                    Days.Add(newDay);
                 }
+
             }
         }
 
@@ -576,5 +590,23 @@ namespace WindowsFormsApplication1
             }
         }
 
+        private void checkTime_Click(object sender, EventArgs e)
+        {
+            string text = "Current Times/Dates\n";
+            foreach (Day day in Days)
+            {
+                text += day.date + ": ";
+                List<Tuple<DateTime,DateTime>> timeBoxesDay = day.timeBoxForDay;
+                foreach (Tuple<DateTime,DateTime> times in timeBoxesDay)
+                {
+                    DateTime startTime = times.Item1;
+                    DateTime endTime = times.Item2;
+
+                    text += startTime.ToShortTimeString() + "-" + endTime.ToShortTimeString() + "; ";
+                }
+                text += "\n";
+            }
+            MessageBox.Show(text);
+        }
     }
 }

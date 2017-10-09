@@ -296,6 +296,13 @@
             </summary>
             <param name="att">New number.</param>
         </member>
+        <member name="M:WindowsFormsApplication1.Event.setTask(System.String,System.Int32)">
+            <summary>
+            Setter for updating a task within the event task list with a username
+            </summary>
+            <param name="name"></param> Name of user 
+            <param name="index"></param> index of task to be updated
+        </member>
         <member name="M:WindowsFormsApplication1.Event.addAttendee(System.String,System.Collections.Generic.List{System.DateTime})">
             <summary>
             Add an attendee to the event
