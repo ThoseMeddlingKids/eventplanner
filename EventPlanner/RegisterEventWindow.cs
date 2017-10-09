@@ -237,10 +237,13 @@ namespace WindowsFormsApplication1
             //Write event specified by user to file
             this.Close();
 
+            //create an event with the event constructor
             Event evt = new Event(nameTextBox.Text, userName, briefMessageText.Text, dateTimes, locationText.Text, 1, capInt, MasterTaskList);
+            //establish list of attendees affiliated with this given event.
             List<Tuple<String, List<DateTime>>> startingAttendees = new List<Tuple<string, List<DateTime>>>();
             List<DateTime> attendeeDTs = new List<DateTime>();
 
+            //Add the attendees to the list
             foreach (Tuple<DateTime, DateTime> tuple in dateTimes)
             {
                 DateTime currentTime = tuple.Item1;
@@ -315,6 +318,11 @@ namespace WindowsFormsApplication1
 
 
         //Adds CueBoxes to the second flow layout panel dynamically.
+        /// <summary>
+        /// Click Behavior for the AddTask Button
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void AddTaskBtn_Click(object sender, EventArgs e)
         {
             CueTextBox NameOfTask = new CueTextBox();
@@ -340,8 +348,12 @@ namespace WindowsFormsApplication1
                 timeBoxes.Remove(timeBoxes.Last());
             }
         }
-
-        //deletes instances of task cueboxes created within the flow layout panel
+        /// <summary>
+        /// Delete Instance of taskbox
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        ///deletes instances of task cueboxes created within the flow layout panel
         private void DeleteTaskBtn_Click(object sender, EventArgs e)
         {
             if (eventTasks.Count >= 1)
