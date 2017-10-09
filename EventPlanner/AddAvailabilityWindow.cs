@@ -221,8 +221,9 @@ namespace WindowsFormsApplication1
                 for (int k = 0; i < selectedEvent.ThisEventTaskList.Count; i++)
                 {
                     String task = selectedEvent.ThisEventTaskList[k].Item2;
+                    String name = selectedEvent.ThisEventTaskList[k].Item1;
+                    Console.WriteLine("This task currently holds value of: "+ name);
                     CheckBox taskBox = AddTaskBox(task);
-                    
                     taskPanel.Controls.Add(taskBox);
                     
                 }
@@ -389,7 +390,7 @@ namespace WindowsFormsApplication1
 
                 for (int j = 0; j < taskList.Count; j++)
                 {
-                    if (taskList[j].Checked)
+                    if (taskList[j].Checked == true)
                     {
                         realEvent.setTask(userName, j);
                     }

@@ -169,7 +169,7 @@ namespace WindowsFormsApplication1
                 {
                     Console.WriteLine("Adding Task");
                     String person = "";
-                    String taskDef = "Some Stupid Task";
+                    String taskDef = task.Text ;
                     ListOfTasks.Add(new Tuple<String, String>(person, taskDef));
                 }
 
@@ -355,7 +355,7 @@ namespace WindowsFormsApplication1
         {
             CueTextBox NameOfTask = new CueTextBox();
             NameOfTask.Cue = "Enter a new task";
-
+            NameOfTask.Text = "Some Stupid Task";
             eventTasks.Add(new CueTextBox());
             flowLayoutPanel2.Controls.Add(NameOfTask);
         }
