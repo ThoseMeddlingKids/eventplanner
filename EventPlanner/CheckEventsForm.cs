@@ -118,30 +118,59 @@ namespace WindowsFormsApplication1
                     //listing attendance for each every person attending admins event
                     foreach (Tuple<String, List<DateTime>> tuple in ev.attendees)
                     {
-                        List<String> timeStrings = new List<string>();
-                        DateTime[] times = tuple.Item2.ToArray<DateTime>();
-                        int count = 0;
-                        start = tuple.Item2[0];
-                        end = start;
-
-
-
-
-                        //go through the list and adding start/end date to strings
-                        foreach (DateTime dt in tuple.Item2)
+                        if (!tuple.Item1.Any())
                         {
-                            //checking next time exists
-                            if (count +1 < times.Length)
+                            List<String> timeStrings = new List<string>();
+                            DateTime[] times = tuple.Item2.ToArray<DateTime>();
+                            int count = 0;
+                            start = tuple.Item2[0];
+                            end = start;
+
+
+
+
+                            //go through the list and adding start/end date to strings
+                            foreach (DateTime dt in tuple.Item2)
                             {
-                                duration = times[count + 1] - dt;
-                                //checking if continuous
-                                if (duration.ToString() == "00:30:00")
+                                //checking next time exists
+                                if (count + 1 < times.Length)
                                 {
-                                    end = times[count + 1];
-                                    continuous = true;
-                                    count++;
+                                    duration = times[count + 1] - dt;
+                                    //checking if continuous
+                                    if (duration.ToString() == "00:30:00")
+                                    {
+                                        end = times[count + 1];
+                                        continuous = true;
+                                        count++;
+                                    }
+                                    //not coninuous anymore
+                                    else
+                                    {
+                                        //adding to string in 24 hour or 12 hour format
+                                        if (!use24Hour)
+                                        {
+                                            if (continuous)
+                                                timeStrings.Add(start.ToShortTimeString() + " to " + end.AddMinutes(30).ToShortTimeString());
+                                            else
+                                                timeStrings.Add(start.ToShortTimeString());
+                                        }
+
+                                        else
+                                        {
+                                            String dateFormat = "HH:mm";
+                                            if (continuous)
+                                                timeStrings.Add(start.ToString(dateFormat) + " to " + end.AddMinutes(30).ToString(dateFormat));
+                                            else
+                                                timeStrings.Add(start.ToString(dateFormat));
+                                        }
+
+                                        //trackekrs for print outs
+                                        start = times[count + 1];
+                                        count++;
+                                        continuous = false;
+                                    }
                                 }
-                                //not coninuous anymore
+                                //end of string of times
                                 else
                                 {
                                     //adding to string in 24 hour or 12 hour format
@@ -161,44 +190,18 @@ namespace WindowsFormsApplication1
                                         else
                                             timeStrings.Add(start.ToString(dateFormat));
                                     }
-
-                                    //trackekrs for print outs
-                                    start = times[count + 1];
-                                    count++;
                                     continuous = false;
                                 }
-                            }
-                            //end of string of times
-                            else
-                            {
-                                //adding to string in 24 hour or 12 hour format
-                                if (!use24Hour)
-                                {
-                                    if (continuous)
-                                        timeStrings.Add(start.ToShortTimeString() + " to " + end.AddMinutes(30).ToShortTimeString());
-                                    else
-                                        timeStrings.Add(start.ToShortTimeString());
-                                }
 
-                                else
-                                {
-                                    String dateFormat = "HH:mm";
-                                    if (continuous)
-                                        timeStrings.Add(start.ToString(dateFormat) + " to " + end.AddMinutes(30).ToString(dateFormat));
-                                    else
-                                        timeStrings.Add(start.ToString(dateFormat));
-                                }
-                                continuous = false;
+
                             }
-                            
-                   
+
+                            //printing strings to text box
+                            attendeesBox.Text += tuple.Item1;
+                            attendeesBox.Text += ":";
+                            attendeesBox.Text += String.Join(", ", timeStrings);
+                            attendeesBox.Text += "\r\n";
                         }
-
-                        //printing strings to text box
-                        attendeesBox.Text += tuple.Item1;
-                        attendeesBox.Text += ":";
-                        attendeesBox.Text += String.Join(", ", timeStrings);
-                        attendeesBox.Text += "\r\n";
                     }
 
                     foreach (Tuple<String, String> task in ev.ThisEventTaskList)

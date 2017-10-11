@@ -580,10 +580,10 @@ namespace WindowsFormsApplication1
             }
             
             // check for overlapping times 
-            for (int i = 0; i < dateTimes.Count; i++)
+            for (int i = 0; i < newDateTimes.Count; i++)
             {
-                DateTime start = dateTimes[i].Item1;
-                DateTime end = dateTimes[i].Item2;
+                DateTime start = newDateTimes[i].Item1;
+                DateTime end = newDateTimes[i].Item2;
 
                 // check for time in the past
                 if (start.Date == DateTime.Now.Date && start.TimeOfDay < DateTime.Now.TimeOfDay)
@@ -595,8 +595,8 @@ namespace WindowsFormsApplication1
                 int num = i;
                 for (int j = num - 1; j >= 0; j--)
                 {
-                    DateTime startTest = dateTimes[j].Item1;
-                    DateTime endTest = dateTimes[j].Item2;
+                    DateTime startTest = newDateTimes[j].Item1;
+                    DateTime endTest = newDateTimes[j].Item2;
 
                     if ( ((start.TimeOfDay >= startTest.TimeOfDay) && (start.TimeOfDay < endTest.TimeOfDay)) ||
                          ((endTest.TimeOfDay > start.TimeOfDay)   && (endTest.TimeOfDay <= end.TimeOfDay))   ||
@@ -665,6 +665,7 @@ namespace WindowsFormsApplication1
                 flowLayoutPanel3.Controls.Remove(dateBox.Last().Item1);
                 flowLayoutPanel3.Controls.Remove(dateBox.Last().Item2);
                 dateBox.Remove(dateBox.Last());
+                Days.Remove(Days.Last());
             }
         }
 

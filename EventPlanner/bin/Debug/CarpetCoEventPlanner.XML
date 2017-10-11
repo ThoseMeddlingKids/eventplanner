@@ -114,6 +114,13 @@
             <param name="sender">The sending winforms object.</param>
             <param name="e">Winforms event arguments.</param>
         </member>
+        <member name="M:WindowsFormsApplication1.AddDay.cancelButton_Click(System.Object,System.EventArgs)">
+            <summary>
+            Exit the window
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
         <member name="F:WindowsFormsApplication1.AddDay.components">
             <summary>
             Required designer variable.
@@ -193,6 +200,23 @@
             Required method for Designer support - do not modify
             the contents of this method with the code editor.
             </summary>
+        </member>
+        <member name="F:WindowsFormsApplication1.Day.timeBoxForDay">
+            <summary>
+            Public list of times for the day
+            </summary>
+        </member>
+        <member name="F:WindowsFormsApplication1.Day.date">
+            <summary>
+            Public date
+            </summary>
+        </member>
+        <member name="M:WindowsFormsApplication1.Day.#ctor(System.DateTime,System.Collections.Generic.List{System.Tuple{System.DateTime,System.DateTime}})">
+            <summary>
+            
+            </summary>
+            <param name="selectedDate">Date</param>
+            <param name="times">List of times for the day</param>
         </member>
         <member name="T:WindowsFormsApplication1.Event">
             <summary>
@@ -359,6 +383,36 @@
             Form allowing user to add a new event.
             </summary>
         </member>
+        <member name="F:WindowsFormsApplication1.RegisterEventWindow.Days">
+            <summary>
+            List containing the days (and corresponding times) for the event
+            </summary>
+        </member>
+        <member name="F:WindowsFormsApplication1.RegisterEventWindow.timeBoxes">
+            <summary>
+            list of timeboxes created
+            </summary>
+        </member>
+        <member name="F:WindowsFormsApplication1.RegisterEventWindow.eventTasks">
+            <summary>
+            List of tasks
+            </summary>
+        </member>
+        <member name="F:WindowsFormsApplication1.RegisterEventWindow.dateBox">
+            <summary>
+            Dynamic list of added days and boxes
+            </summary>
+        </member>
+        <member name="F:WindowsFormsApplication1.RegisterEventWindow.halfHourDateTimes">
+            <summary>
+            List of half hour times (starts)
+            </summary>
+        </member>
+        <member name="F:WindowsFormsApplication1.RegisterEventWindow.halfHourDateTimesForEnd">
+            <summary>
+            list of half hour times (ends)
+            </summary>
+        </member>
         <member name="M:WindowsFormsApplication1.RegisterEventWindow.#ctor(System.DateTime,System.Boolean,System.String)">
             <summary>
             Constructor for the RegisterEventWindow form.
@@ -397,6 +451,13 @@
             <param name="sender">The sending winforms object.</param>
             <param name="e">Winforms event arguments.</param>
         </member>
+        <member name="M:WindowsFormsApplication1.RegisterEventWindow.AddTaskBtn_Click(System.Object,System.EventArgs)">
+            <summary>
+            Click Behavior for the AddTask Button
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
         <member name="M:WindowsFormsApplication1.RegisterEventWindow.removeTimeSlotButton_Click(System.Object,System.EventArgs)">
             <summary>
             Click behavior for the remove time slot button.
@@ -404,6 +465,14 @@
             </summary>
             <param name="sender">The sending winforms object.</param>
             <param name="e">Winforms event arguments.</param>
+        </member>
+        <member name="M:WindowsFormsApplication1.RegisterEventWindow.DeleteTaskBtn_Click(System.Object,System.EventArgs)">
+             <summary>
+             Delete Instance of taskbox
+             </summary>
+             <param name="sender"></param>
+             <param name="e"></param>
+            deletes instances of task cueboxes created within the flow layout panel
         </member>
         <member name="M:WindowsFormsApplication1.RegisterEventWindow.capacityText_KeyPress(System.Object,System.Windows.Forms.KeyPressEventArgs)">
             <summary>
@@ -458,6 +527,20 @@
             <summary>
             Sets Times for a specific day
             </summary>
+        </member>
+        <member name="M:WindowsFormsApplication1.RegisterEventWindow.removeDay_Click(System.Object,System.EventArgs)">
+            <summary>
+            remove previous day
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:WindowsFormsApplication1.RegisterEventWindow.checkTime_Click(System.Object,System.EventArgs)">
+            <summary>
+            checks what times are set 
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
         </member>
         <member name="F:WindowsFormsApplication1.RegisterEventWindow.components">
             <summary>
